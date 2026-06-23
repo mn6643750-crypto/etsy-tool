@@ -1,0 +1,286 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f9f5f0;
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.container {
+  background: white;
+  border-radius: 16px;
+  padding: 40px;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+}
+
+h1 {
+  font-size: 28px;
+  margin-bottom: 8px;
+  color: #e95e2f;
+}
+
+.subtitle {
+  color: #888;
+  margin-bottom: 32px;
+  font-size: 15px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+label {
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: -6px;
+}
+
+input {
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s;
+}
+
+input:focus {
+  border-color: #e95e2f;
+}
+
+button {
+  background: #e95e2f;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-top: 8px;
+}
+
+button:hover {
+  background: #cf4e22;
+}
+
+button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.output {
+  background: #f9f5f0;
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 120px;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #444;
+  white-space: pre-wrap;
+}
+.style-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.style-btn {
+  background: white;
+  color: #e95e2f;
+  border: 2px solid #e95e2f;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.style-btn:hover {
+  background: #e95e2f;
+  color: white;
+}
+
+.style-btn.active {
+  background: #e95e2f;
+  color: white;
+}
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.tab {
+  background: white;
+  color: #e95e2f;
+  border: 2px solid #e95e2f;
+  padding: 10px 24px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab:hover {
+  background: #e95e2f;
+  color: white;
+}
+
+.tab.active {
+  background: #e95e2f;
+  color: white;
+}
+
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+textarea {
+  padding: 12px 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: border 0.2s;
+  width: 100%;
+  resize: vertical;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+textarea:focus {
+  border-color: #e95e2f;
+}
+.section-box {
+  background: #f9f5f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.section-header h3 {
+  color: #e95e2f;
+  margin: 0;
+}
+
+.copy-btn {
+  background: white;
+  color: #e95e2f;
+  border: 1px solid #e95e2f;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.copy-btn:hover {
+  background: #e95e2f;
+  color: white;
+}
+
+.section-content {
+  margin: 0;
+  line-height: 1.6;
+  color: #444;
+  white-space: pre-wrap;
+}
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.dashboard-header h2 {
+  color: #e95e2f;
+  margin: 0;
+}
+
+#clearAllBtn {
+  background: white;
+  color: #e95e2f;
+  border: 1px solid #e95e2f;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+#clearAllBtn:hover {
+  background: #e95e2f;
+  color: white;
+}
+
+.saved-item {
+  background: #f9f5f0;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.saved-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.saved-item-title {
+  font-weight: 600;
+  color: #333;
+  font-size: 15px;
+}
+
+.saved-item-date {
+  font-size: 12px;
+  color: #888;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: #888;
+}
+
+.delete-btn:hover {
+  color: #e95e2f;
+}
+
+.empty-msg {
+  color: #888;
+  text-align: center;
+  padding: 40px 0;
+}

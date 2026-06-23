@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Etsy Description Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="container">
+    <h1>✨ Etsy Description Generator</h1>
+    <p class="subtitle">Generate SEO-friendly product descriptions in seconds</p>
+
+    
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="generator">Generator</button>
+      <button class="tab" data-tab="analyzer">Competitor Analyzer</button>
+      <button class="tab" data-tab="dashboard">📁 Saved</button>
+    </div>
+
+    <!-- Generator Tab -->
+    <div id="generator" class="tab-content active">
+      <div class="form">
+        <label>Product Name</label>
+        <input type="text" id="productName" placeholder="e.g. Handmade ceramic mug" />
+
+        <label>Materials / Details</label>
+        <input type="text" id="materials" placeholder="e.g. ceramic, hand-painted, 12oz" />
+
+        <label>Keywords</label>
+        <input type="text" id="keywords" placeholder="e.g. gift, minimalist, kitchen" />
+
+        <label>Description Style</label>
+        <div class="style-buttons">
+          <button class="style-btn active" data-style="Professional">Professional</button>
+          <button class="style-btn" data-style="Luxury">Luxury</button>
+          <button class="style-btn" data-style="Friendly">Friendly</button>
+          <button class="style-btn" data-style="Emotional">Emotional</button>
+          <button class="style-btn" data-style="SEO Focused">SEO Focused</button>
+        </div>
+
+        <button id="generateBtn">✨ Generate</button>
+      </div>
+
+      <div class="output" id="output">
+        <div id="outputText">Your content will appear here...</div>
+      </div>
+    </div>
+        <!-- Dashboard Tab -->
+    <div id="dashboard" class="tab-content">
+      <div class="dashboard-header">
+        <h2>Saved Listings</h2>
+        <button id="clearAllBtn">🗑️ Clear All</button>
+      </div>
+      <div id="savedListings">
+        <p class="empty-msg">No saved listings yet. Generate content and save it!</p>
+      </div>
+    </div>
+    <!-- Analyzer Tab -->
+    <div id="analyzer" class="tab-content">
+      <div class="form">
+        <label>Paste Competitor Description</label>
+        <textarea id="competitorText" placeholder="Paste your competitor's product description here..." rows="6"></textarea>
+
+        <button id="analyzeBtn">🔍 Analyze</button>
+      </div>
+
+      <div class="output" id="analyzerOutput">
+        <div id="analyzerText">Analysis will appear here...</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
