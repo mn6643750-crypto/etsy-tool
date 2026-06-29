@@ -1,4 +1,13 @@
 const generateBtn = document.getElementById('generateBtn');
+// Analytics Helper
+function trackEvent(eventName, params = {}) {
+  if (typeof gtag !== 'undefined') {
+    gtag('event', eventName, {
+      timestamp: new Date().toISOString(),
+      ...params
+    });
+  }
+}
 const analyzeBtn = document.getElementById('analyzeBtn');
 const outputText = document.getElementById('outputText');
 const analyzerText = document.getElementById('analyzerText');
@@ -69,10 +78,19 @@ function formatOutput(result, containerId) {
 }
 
 function copyText(btn) {
+  const sectionTitle = btn.parentElement.querySelector('h3').textContent;
   const text = btn.parentElement.nextElementSibling.textContent;
   navigator.clipboard.writeText(text);
   btn.textContent = '✅ Copied!';
   setTimeout(() => btn.textContent = '📋 Copy', 2000);
+  
+  if (sectionTitle.includes('SEO TITLE')) {
+    trackEvent('copy_title_clicked');
+  } else if (sectionTitle.includes('DESCRIPTION')) {
+    trackEvent('copy_description_clicked');
+  } else if (sectionTitle.includes('ETSY TAGS')) {
+    trackEvent('copy_tags_clicked');
+  }
 }
 
 // Generator
@@ -85,7 +103,8 @@ generateBtn.addEventListener('click', async () => {
     outputText.textContent = 'Please enter a product name!';
     return;
   }
-
+  const startTime = Date.now();
+  trackEvent('generate_clicked', { style: selectedStyle });
   generateBtn.disabled = true;
   generateBtn.textContent = '⏳ Generating...';
   outputText.innerHTML = 'Generating your content...';
@@ -130,10 +149,18 @@ ETSY TAGS:
 
     const data = await response.json();
     outputText.innerHTML = formatOutput(data.choices[0].message.content);
+    trackEvent('generation_success', {
+  style: selectedStyle,
+  duration_ms: Date.now() - startTime
+});
     saveResult(productName, formatOutput(data.choices[0].message.content));
 
   } catch (error) {
     outputText.textContent = 'Something went wrong. Please try again.';
+    trackEvent('generation_failed', {
+      style: selectedStyle,
+      duration_ms: Date.now() - startTime
+    });
   } finally {
     generateBtn.disabled = false;
     generateBtn.textContent = '✨ Generate';
