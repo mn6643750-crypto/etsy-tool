@@ -46,9 +46,9 @@ function formatOutput(result) {
   };
 
   // Try to extract each section
-  const titleMatch = text.match(/SEO TITLE[:\s]+([\s\S]*?)(?=DESCRIPTION[:\s]|$)/i);
-  const descMatch = text.match(/DESCRIPTION[:\s]+([\s\S]*?)(?=ETSY TAGS[:\s]|$)/i);
-  const tagsMatch = text.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
+const titleMatch = text.match(/\*{0,2}SEO TITLE\*{0,2}[:\s]+([\s\S]*?)(?=\*{0,2}DESCRIPTION\*{0,2}[:\s]|$)/i);
+const descMatch = text.match(/\*{0,2}DESCRIPTION\*{0,2}[:\s]+([\s\S]*?)(?=\*{0,2}ETSY TAGS\*{0,2}[:\s]|$)/i);
+const tagsMatch = text.match(/\*{0,2}ETSY TAGS\*{0,2}[:\s]+([\s\S]*?)$/i);
 
   if (titleMatch) sections['SEO TITLE'] = titleMatch[1].trim();
   if (descMatch) sections['DESCRIPTION'] = descMatch[1].trim();
