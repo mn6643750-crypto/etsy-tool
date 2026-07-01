@@ -35,10 +35,11 @@ document.querySelectorAll('.style-btn').forEach(btn => {
 //  format output
 function formatOutput(result) {
   const text = result.trim();
+  const cleaned = text.replace(/\*\*/g, '').replace(/\*/g, '').trim();
   
-  const titleMatch = text.match(/\*{0,2}SEO TITLE\*{0,2}[:\s]+([\s\S]*?)(?=\*{0,2}DESCRIPTION\*{0,2}[:\s]|$)/i);
-  const descMatch = text.match(/\*{0,2}DESCRIPTION\*{0,2}[:\s]+([\s\S]*?)(?=\*{0,2}ETSY TAGS\*{0,2}[:\s]|$)/i);
-  const tagsMatch = text.match(/\*{0,2}ETSY TAGS\*{0,2}[:\s]+([\s\S]*?)$/i);
+const titleMatch = cleaned.match(/SEO TITLE[:\s]+([\s\S]*?)(?=DESCRIPTION[:\s]|$)/i);
+const descMatch = cleaned.match(/DESCRIPTION[:\s]+([\s\S]*?)(?=ETSY TAGS[:\s]|$)/i);
+const tagsMatch = cleaned.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
 
   const title = titleMatch ? titleMatch[1].trim() : '';
   const desc = descMatch ? descMatch[1].trim() : '';
@@ -70,7 +71,7 @@ function formatOutput(result) {
   if (html) {
     html += `<button class="copy-all-btn" id="copyAllBtn">📋 Copy All</button>`;
   } else {
-    html = `<div class="section-box"><p class="section-content">${text.replace(/\n/g, '<br>')}</p></div>`;
+   html = `<div class="section-box"><p class="section-content">${cleaned.replace(/\n/g, '<br>')}</p></div>`;
   }
 
   return html;
