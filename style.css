@@ -336,3 +336,20 @@ textarea:focus {
 .feedback-hint a:hover {
   text-decoration: underline;
 }
+.copy-all-btn {
+  width: 100%;
+  background: #e95e2f;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 16px;
+  transition: all 0.2s;
+}
+
+.copy-all-btn:hover {
+  background: #cf4e22;
+}

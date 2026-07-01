@@ -32,45 +32,44 @@ document.querySelectorAll('.style-btn').forEach(btn => {
     selectedStyle = btn.dataset.style;
   });
 });
-
-// Format output
+//  format output
 function formatOutput(result) {
-  // Clean the result
   const text = result.trim();
   
-  // Extract sections with flexible matching
-  const sections = {
-    'SEO TITLE': '',
-    'DESCRIPTION': '',
-    'ETSY TAGS': ''
-  };
+  const titleMatch = text.match(/\*{0,2}SEO TITLE\*{0,2}[:\s]+([\s\S]*?)(?=\*{0,2}DESCRIPTION\*{0,2}[:\s]|$)/i);
+  const descMatch = text.match(/\*{0,2}DESCRIPTION\*{0,2}[:\s]+([\s\S]*?)(?=\*{0,2}ETSY TAGS\*{0,2}[:\s]|$)/i);
+  const tagsMatch = text.match(/\*{0,2}ETSY TAGS\*{0,2}[:\s]+([\s\S]*?)$/i);
 
-  // Try to extract each section
-const titleMatch = text.match(/\*{0,2}SEO TITLE\*{0,2}[:\s]+([\s\S]*?)(?=\*{0,2}DESCRIPTION\*{0,2}[:\s]|$)/i);
-const descMatch = text.match(/\*{0,2}DESCRIPTION\*{0,2}[:\s]+([\s\S]*?)(?=\*{0,2}ETSY TAGS\*{0,2}[:\s]|$)/i);
-const tagsMatch = text.match(/\*{0,2}ETSY TAGS\*{0,2}[:\s]+([\s\S]*?)$/i);
+  const title = titleMatch ? titleMatch[1].trim() : '';
+  const desc = descMatch ? descMatch[1].trim() : '';
+  const tags = tagsMatch ? tagsMatch[1].trim() : '';
 
-  if (titleMatch) sections['SEO TITLE'] = titleMatch[1].trim();
-  if (descMatch) sections['DESCRIPTION'] = descMatch[1].trim();
-  if (tagsMatch) sections['ETSY TAGS'] = tagsMatch[1].trim();
+  // Store for Copy All
+  window.lastGenerated = { title, desc, tags };
 
   let html = '';
 
-  Object.entries(sections).forEach(([key, value]) => {
-    if (value) {
-      html += `
-        <div class="section-box">
-          <div class="section-header">
-            <h3>${key}</h3>
-            <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
-          </div>
-          <p class="section-content">${value.replace(/\n/g, '<br>')}</p>
-        </div>`;
-    }
-  });
+  if (title) html += `
+    <div class="section-box">
+      <h3>SEO TITLE</h3>
+      <p class="section-content">${title}</p>
+    </div>`;
 
-  // Fallback لو مفيش sections اتعرفت
-  if (!html) {
+  if (desc) html += `
+    <div class="section-box">
+      <h3>DESCRIPTION</h3>
+      <p class="section-content">${desc.replace(/\n/g, '<br>')}</p>
+    </div>`;
+
+  if (tags) html += `
+    <div class="section-box">
+      <h3>ETSY TAGS</h3>
+      <p class="section-content">${tags}</p>
+    </div>`;
+
+  if (html) {
+    html += `<button class="copy-all-btn" id="copyAllBtn">📋 Copy All</button>`;
+  } else {
     html = `<div class="section-box"><p class="section-content">${text.replace(/\n/g, '<br>')}</p></div>`;
   }
 
@@ -254,3 +253,17 @@ document.getElementById('clearAllBtn').addEventListener('click', () => {
 });
 
 renderDashboard();
+// Copy All
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'copyAllBtn') {
+    const { title, desc, tags } = window.lastGenerated || {};
+    const copyText = `Title:\n${title}\n\nDescription:\n${desc}\n\nTags:\n${tags}`;
+    navigator.clipboard.writeText(copyText);
+    
+    const btn = e.target;
+    btn.textContent = '✅ Copied to clipboard!';
+    setTimeout(() => btn.textContent = '📋 Copy All', 2000);
+    
+    trackEvent('copy_all_clicked');
+  }
+});
