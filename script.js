@@ -43,21 +43,15 @@ const tagsMatch = cleaned.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
 
   const title = titleMatch ? titleMatch[1].trim() : '';
   const desc = descMatch ? descMatch[1].trim() : '';
-  let tags = tagsMatch ? tagsMatch[1].trim() : '';
+
+let tags = tagsMatch ? tagsMatch[1].trim() : '';
 let tagsWarning = false;
 
 if (tags) {
   const tagList = tags.split(',').map(tag => tag.trim());
-  const fixedTags = tagList.map(tag => {
-    if (tag.length > 20) {
-      tagsWarning = true;
-      return tag.substring(0, 20).trim();
-    }
-    return tag;
-  });
-  tags = fixedTags.join(', ');
+  tagsWarning = tagList.some(tag => tag.length > 20);
+  tags = tagList.join(', ');
 }
-
   // Store for Copy All
   window.lastGenerated = { title, desc, tags };
 
@@ -148,8 +142,11 @@ DESCRIPTION RULES:
 
 ETSY TAGS RULES:
 - Exactly 13 tags.
-- Each tag must be 20 characters or less (this is Etsy's hard limit).
-- Use real Etsy search terms buyers actually use.
+- Each tag MUST be 20 characters or less. Count every character including spaces.
+- NEVER truncate a tag. If a phrase is too long, use a shorter alternative.
+- Examples of good tags: "personalized gift", "gift for dad", "leather wallet", "custom gift"
+- Examples of bad tags: "personalized gifts f", "gift ideas for fathe"
+- Use complete natural phrases that Etsy buyers actually search for.
 - Separate with commas.
 
 Return EXACTLY in this format with no extra text:
