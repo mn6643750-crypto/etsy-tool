@@ -49,8 +49,23 @@ let tagsWarning = false;
 
 if (tags) {
   const tagList = tags.split(',').map(tag => tag.trim());
-  tagsWarning = tagList.some(tag => tag.length > 20);
-  tags = tagList.join(', ');
+  const fixedTags = tagList.map(tag => {
+    if (tag.length > 20) {
+      tagsWarning = true;
+      const words = tag.split(' ');
+      let shortTag = '';
+      for (const word of words) {
+        if ((shortTag + (shortTag ? ' ' : '') + word).length <= 20) {
+          shortTag += (shortTag ? ' ' : '') + word;
+        } else {
+          break;
+        }
+      }
+      return shortTag || words[0].substring(0, 20);
+    }
+    return tag;
+  });
+  tags = fixedTags.join(', ');
 }
   // Store for Copy All
   window.lastGenerated = { title, desc, tags };
@@ -142,11 +157,18 @@ DESCRIPTION RULES:
 
 ETSY TAGS RULES:
 - Exactly 13 tags.
-- Each tag MUST be 20 characters or less. Count every character including spaces.
-- NEVER truncate a tag. If a phrase is too long, use a shorter alternative.
-- Examples of good tags: "personalized gift", "gift for dad", "leather wallet", "custom gift"
-- Examples of bad tags: "personalized gifts f", "gift ideas for fathe"
-- Use complete natural phrases that Etsy buyers actually search for.
+- CRITICAL: Every single tag MUST be 20 characters or less. Count every character including spaces.
+- Before returning, count each tag's characters. If any tag is over 20 characters, replace it with a shorter version.
+- NEVER use a tag over 20 characters. No exceptions.
+- Use complete natural phrases only.
+- Good examples (count the characters):
+  "personalized gift" = 17 chars ✓
+  "gift for dad" = 12 chars ✓
+  "leather wallet" = 14 chars ✓
+  "custom gift" = 11 chars ✓
+- Bad examples:
+  "personalized gifts for him" = 26 chars ✗ → use "gift for him" instead
+  "fathers day gift ideas" = 22 chars ✗ → use "fathers day gift" instead
 - Separate with commas.
 
 Return EXACTLY in this format with no extra text:
