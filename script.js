@@ -43,7 +43,20 @@ const tagsMatch = cleaned.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
 
   const title = titleMatch ? titleMatch[1].trim() : '';
   const desc = descMatch ? descMatch[1].trim() : '';
-  const tags = tagsMatch ? tagsMatch[1].trim() : '';
+  let tags = tagsMatch ? tagsMatch[1].trim() : '';
+let tagsWarning = false;
+
+if (tags) {
+  const tagList = tags.split(',').map(tag => tag.trim());
+  const fixedTags = tagList.map(tag => {
+    if (tag.length > 20) {
+      tagsWarning = true;
+      return tag.substring(0, 20).trim();
+    }
+    return tag;
+  });
+  tags = fixedTags.join(', ');
+}
 
   // Store for Copy All
   window.lastGenerated = { title, desc, tags };
@@ -63,10 +76,13 @@ const tagsMatch = cleaned.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
     </div>`;
 
   if (tags) html += `
-    <div class="section-box">
-      <h3>ETSY TAGS</h3>
-      <p class="section-content">${tags}</p>
-    </div>`;
+      <div class="section-box">
+        <h3>ETSY TAGS</h3>
+        <p class="section-content">${tags}</p>
+        <p class="tags-validation ${tagsWarning ? 'warning' : 'success'}">
+          ${tagsWarning ? '⚠️ Some tags exceeded Etsy\'s limit and were automatically shortened.' : '✅ All tags are optimized for Etsy (20 characters or less)'}
+        </p>
+      </div>`;
 
   if (html) {
     html += `<button class="copy-all-btn" id="copyAllBtn">📋 Copy All</button>`;
@@ -104,29 +120,48 @@ generateBtn.addEventListener('click', async () => {
         max_tokens: 2048,
         messages: [{
           role: 'user',
-content: `Generate Etsy listing content for:
+content: `You are an experienced Etsy seller who specializes in SEO-optimized product listings.
+
+Generate an Etsy listing for this product:
 Product: ${productName}
 Materials/Details: ${materials}
 Keywords: ${keywords}
 Style: ${selectedStyle}
 
-IMPORTANT RULES:
-1. Use ONLY the information provided by the user.
-2. If a feature is not explicitly mentioned, do not include it.
-3. Do not assume: durability, ergonomic benefits, adjustable angles, storage capacity, comfort, or performance.
-4. Missing information should be omitted, not inferred.
-5. Write in a natural Etsy seller style.
-6. Avoid these phrases: "elevate your style", "exquisite", "luxurious", "premium accessory", "make a statement".
-You MUST return all three sections. Use EXACTLY these headers:
+STRICT RULES:
+1. Use ONLY the information provided. Do not invent features, materials, or specifications.
+2. If information is missing, omit it. Never assume or infer.
+3. Write like a real Etsy seller, not a generic AI.
+4. Avoid phrases like: "Order now", "Our attention to detail", "elevate your style", "exquisite", "luxurious", "premium", "make a statement".
+
+SEO TITLE RULES:
+- Start with the most searched Etsy keyword for this product.
+- Maximum 140 characters.
+- Natural and keyword-rich, not stuffed.
+- Do not add colors or details unless they add search value.
+
+DESCRIPTION RULES:
+- Focus on: what it is, materials, who it's for, and use cases.
+- Sound like a real seller, not a marketing brochure.
+- 120-150 words maximum.
+- ${selectedStyle} tone.
+
+ETSY TAGS RULES:
+- Exactly 13 tags.
+- Each tag must be 20 characters or less (this is Etsy's hard limit).
+- Use real Etsy search terms buyers actually use.
+- Separate with commas.
+
+Return EXACTLY in this format with no extra text:
 
 SEO TITLE:
-[Write an SEO-optimized Etsy title under 140 characters using the ${selectedStyle} style]
+[title here]
 
 DESCRIPTION:
-[Write a compelling 150-word product description in ${selectedStyle} style]
+[description here]
 
 ETSY TAGS:
-[Write exactly 13 comma-separated tags]`
+[tag1, tag2, tag3, ...]`
         }]
       })
     });

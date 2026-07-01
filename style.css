@@ -353,3 +353,19 @@ textarea:focus {
 .copy-all-btn:hover {
   background: #cf4e22;
 }
+.tags-validation {
+  font-size: 13px;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.tags-validation.success {
+  color: #2e7d32;
+  background: #f1f8f1;
+}
+
+.tags-validation.warning {
+  color: #e65100;
+  background: #fff3e0;
+}
