@@ -34,63 +34,47 @@ document.querySelectorAll('.style-btn').forEach(btn => {
 });
 
 // Format output
-function formatOutput(result, containerId) {
-  const sections = result.split('\n').filter(line => line.trim() !== '');
-  let html = '';
-  let currentSection = '';
-  let currentContent = '';
+function formatOutput(result) {
+  // Clean the result
+  const text = result.trim();
+  
+  // Extract sections with flexible matching
+  const sections = {
+    'SEO TITLE': '',
+    'DESCRIPTION': '',
+    'ETSY TAGS': ''
+  };
 
-  sections.forEach(line => {
-    if (line.startsWith('SEO TITLE:') || line.startsWith('DESCRIPTION:') || 
-        line.startsWith('ETSY TAGS:') || line.startsWith('STRENGTHS:') || 
-        line.startsWith('WEAKNESSES:') || line.startsWith('SEO SCORE:') || 
-        line.startsWith('IMPROVEMENTS:')) {
-      
-      if (currentContent) {
-        html += `
-          <div class="section-box">
-            <div class="section-header">
-              <h3>${currentSection}</h3>
-              <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
-            </div>
-            <p class="section-content">${currentContent}</p>
-          </div>`;
-      }
-      currentSection = line;
-      currentContent = '';
-    } else {
-      currentContent += line + ' ';
+  // Try to extract each section
+  const titleMatch = text.match(/SEO TITLE[:\s]+([\s\S]*?)(?=DESCRIPTION[:\s]|$)/i);
+  const descMatch = text.match(/DESCRIPTION[:\s]+([\s\S]*?)(?=ETSY TAGS[:\s]|$)/i);
+  const tagsMatch = text.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
+
+  if (titleMatch) sections['SEO TITLE'] = titleMatch[1].trim();
+  if (descMatch) sections['DESCRIPTION'] = descMatch[1].trim();
+  if (tagsMatch) sections['ETSY TAGS'] = tagsMatch[1].trim();
+
+  let html = '';
+
+  Object.entries(sections).forEach(([key, value]) => {
+    if (value) {
+      html += `
+        <div class="section-box">
+          <div class="section-header">
+            <h3>${key}</h3>
+            <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+          </div>
+          <p class="section-content">${value.replace(/\n/g, '<br>')}</p>
+        </div>`;
     }
   });
 
-  if (currentContent) {
-    html += `
-      <div class="section-box">
-        <div class="section-header">
-          <h3>${currentSection}</h3>
-          <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
-        </div>
-        <p class="section-content">${currentContent}</p>
-      </div>`;
+  // Fallback لو مفيش sections اتعرفت
+  if (!html) {
+    html = `<div class="section-box"><p class="section-content">${text.replace(/\n/g, '<br>')}</p></div>`;
   }
 
   return html;
-}
-
-function copyText(btn) {
-  const sectionTitle = btn.parentElement.querySelector('h3').textContent;
-  const text = btn.parentElement.nextElementSibling.textContent;
-  navigator.clipboard.writeText(text);
-  btn.textContent = '✅ Copied!';
-  setTimeout(() => btn.textContent = '📋 Copy', 2000);
-  
-  if (sectionTitle.includes('SEO TITLE')) {
-    trackEvent('copy_title_clicked');
-  } else if (sectionTitle.includes('DESCRIPTION')) {
-    trackEvent('copy_description_clicked');
-  } else if (sectionTitle.includes('ETSY TAGS')) {
-    trackEvent('copy_tags_clicked');
-  }
 }
 
 // Generator
@@ -133,7 +117,7 @@ IMPORTANT RULES:
 4. Missing information should be omitted, not inferred.
 5. Write in a natural Etsy seller style.
 6. Avoid these phrases: "elevate your style", "exquisite", "luxurious", "premium accessory", "make a statement".
-Return EXACTLY in this format:
+You MUST return all three sections. Use EXACTLY these headers:
 
 SEO TITLE:
 [Write an SEO-optimized Etsy title under 140 characters using the ${selectedStyle} style]

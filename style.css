@@ -189,8 +189,11 @@ textarea:focus {
 }
 
 .section-header h3 {
-  color: #e95e2f;
+  color: #333;
   margin: 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .copy-btn {
