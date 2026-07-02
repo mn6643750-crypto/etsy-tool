@@ -101,7 +101,142 @@ if (tags) {
 
   return html;
 }
+// Category Detection
+function detectCategory(productName, materials) {
+  const text = (productName + ' ' + materials).toLowerCase();
+  
+  if (text.match(/svg|cricut|silhouette|dxf|cutting/)) return 'svg';
+  if (text.match(/template|canva|editable|powerpoint|word doc/)) return 'template';
+  if (text.match(/printable|print at home|digital download|pdf|jpeg|png|instant download/)) return 'printable';
+  if (text.match(/ring|necklace|bracelet|earring|pendant|jewelry|jewellery/)) return 'jewelry';
+  if (text.match(/wall art|poster|print|decor|hanging|canvas|frame/)) return 'homedecor';
+  if (text.match(/digital|download|file|pattern|ebook|guide|course/)) return 'digital';
+  return 'physical';
+}
 
+// Category Prompts
+function getCategoryPrompt(category, productName, materials, keywords, selectedStyle) {
+  const base = `Product: ${productName}
+Materials/Details: ${materials}
+Keywords: ${keywords}
+Style: ${selectedStyle}`;
+
+  const shared = `
+ABSOLUTE RULES:
+1. ONLY use information explicitly provided. NEVER invent details.
+2. NEVER assume: gender, age, color, size, material, occasion, or audience unless stated.
+3. NEVER use: "Order now", "Don't miss out", "attention to detail", "elevate", "exquisite", "luxurious", "premium", "perfect for anyone", "great gift".
+4. Write like a real experienced Etsy seller.
+5. Every tag MUST be 20 characters or less. No exceptions.
+6. Generate exactly 13 unique tags with no duplicates.
+
+OUTPUT FORMAT — Return EXACTLY this, nothing else:
+
+SEO TITLE:
+[title]
+
+DESCRIPTION:
+[description]
+
+ETSY TAGS:
+[tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8, tag9, tag10, tag11, tag12, tag13]`;
+
+  const prompts = {
+    svg: `You are an expert Etsy seller specializing in SVG and cutting files.
+
+${base}
+
+TITLE: Start with the file type (SVG, SVG Bundle, etc.) then the design name. Max 140 chars.
+DESCRIPTION: 
+- First line: what files are included (SVG, PNG, DXF, EPS etc.)
+- Mention compatible machines only if stated (Cricut, Silhouette)
+- Explain what the buyer can make with it
+- 100-130 words
+TAGS: Focus on: file format, machine compatibility, design style, use case, craft type
+${shared}`,
+
+    template: `You are an expert Etsy seller specializing in digital templates.
+
+${base}
+
+TITLE: Start with the template type. Include platform (Canva, Google Docs etc.) if provided. Max 140 chars.
+DESCRIPTION:
+- What the template is for
+- What's included (number of slides/pages, formats)
+- How to customize it
+- Who it's for (only if clear from the product)
+- 100-130 words
+TAGS: Focus on: template type, platform, use case, industry, format
+${shared}`,
+
+    printable: `You are an expert Etsy seller specializing in printable products.
+
+${base}
+
+TITLE: Start with the printable type. Max 140 chars.
+DESCRIPTION:
+- What it is and what it helps with
+- File formats and sizes included
+- How to use it (print at home, local print shop)
+- 100-130 words
+TAGS: Focus on: printable type, use case, format, size, occasion (only if provided)
+${shared}`,
+
+    jewelry: `You are an expert Etsy seller specializing in handmade jewelry.
+
+${base}
+
+TITLE: Start with the jewelry type. Include material and style if provided. Max 140 chars.
+DESCRIPTION:
+- What it is and the material
+- Size or dimensions (only if provided)
+- Style and when to wear it (only if implied)
+- 100-130 words
+TAGS: Focus on: jewelry type, material, style, occasion (only if provided), gift use
+${shared}`,
+
+    homedecor: `You are an expert Etsy seller specializing in home decor.
+
+${base}
+
+TITLE: Start with the product type and style. Max 140 chars.
+DESCRIPTION:
+- What it is and the material
+- Size or dimensions (only if provided)
+- Where to use it and how it looks
+- 100-130 words
+TAGS: Focus on: product type, style, room type, material, occasion (only if provided)
+${shared}`,
+
+    digital: `You are an expert Etsy seller specializing in digital products.
+
+${base}
+
+TITLE: Start with the product type. Max 140 chars.
+DESCRIPTION:
+- What the digital product is
+- What's included in the download
+- How the buyer uses it
+- 100-130 words
+TAGS: Focus on: product type, use case, format, topic, audience (only if stated)
+${shared}`,
+
+    physical: `You are an expert Etsy seller specializing in handmade physical products.
+
+${base}
+
+TITLE: Start with the main Etsy search keyword. Max 140 chars.
+DESCRIPTION:
+- What it is and the material (only what's provided)
+- How it's made or used (only if provided)
+- Who it suits (only if clearly implied)
+- 100-130 words. ${selectedStyle} tone.
+TAGS: Focus on: product type, material, style, use case, occasion (only if provided)
+${shared}`
+  };
+
+  return prompts[category] || prompts.physical;
+}
 // Generator
 generateBtn.addEventListener('click', async () => {
   const productName = document.getElementById('productName').value.trim();
@@ -127,61 +262,18 @@ generateBtn.addEventListener('click', async () => {
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',
         max_tokens: 3000,
-        messages: [{
-          role: 'user',
-content: `You are an experienced Etsy seller with deep knowledge of Etsy SEO and buyer psychology.
-
-Your task is to generate a high-quality Etsy product listing based ONLY on the information provided below.
-
-PRODUCT INFORMATION:
-Product: ${productName}
-Materials/Details: ${materials}
-Keywords: ${keywords}
-Tone/Style: ${selectedStyle}
-
-ABSOLUTE RULES — NEVER BREAK THESE:
-1. ONLY use information explicitly provided above.
-2. NEVER invent or assume: gender, age, color, size, material, occasion, audience, or any feature not mentioned.
-3. If information is missing, write around what you know. Do not fill gaps with assumptions.
-4. NEVER use these phrases: "Order now", "Don't miss out", "Our attention to detail", "elevate your style", "exquisite", "luxurious", "premium quality", "make a statement", "perfect for anyone", "great gift idea".
-5. Write like a real human Etsy seller, not a marketing robot.
-
-SEO TITLE RULES:
-- Start with the primary search keyword buyers would use on Etsy.
-- Maximum 140 characters.
-- Include 2-3 relevant keywords naturally.
-- Do NOT stuff keywords or repeat words.
-- Do NOT add details not provided by the user.
-
-DESCRIPTION RULES:
-- 120-150 words maximum.
-- First sentence: what the product is and its main feature.
-- Middle: materials, size, use cases, or personalization options (only if provided).
-- End: who it suits or when to use it (only if clearly implied by the product).
-- Tone: ${selectedStyle}.
-- Sound like a real Etsy seller writing to a real buyer.
-
-ETSY TAGS RULES:
-- Generate exactly 13 tags.
-- EVERY tag must be 20 characters or less. Count carefully.
-- No duplicate tags or near-duplicates.
-- Use phrases real buyers search for on Etsy.
-- No generic tags like "great gift" or "high quality".
-- Prioritize: product type, material, use case, occasion (only if provided), and style.
-
-OUTPUT FORMAT — Return EXACTLY this structure, nothing else:
-
-SEO TITLE:
-[title]
-
-DESCRIPTION:
-[description]
-
-ETSY TAGS:
-[MUST include exactly 13 tags separated by commas on a single line. Example: tag one, tag two, tag three, tag four, tag five, tag six, tag seven, tag eight, tag nine, tag ten, tag eleven, tag twelve, tag thirteen]`
-        }]
-      })
-    });
+messages: [{
+  role: 'user',
+  content: getCategoryPrompt(
+    detectCategory(productName, materials),
+    productName,
+    materials,
+    keywords,
+    selectedStyle
+  )
+}]
+})
+});
 
     const data = await response.json();
     outputText.innerHTML = formatOutput(data.choices[0].message.content);
