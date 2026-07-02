@@ -44,28 +44,13 @@ const tagsMatch = cleaned.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
   const title = titleMatch ? titleMatch[1].trim() : '';
   const desc = descMatch ? descMatch[1].trim() : '';
 
-let tags = tagsMatch ? tagsMatch[1].trim() : '';
 let tagsWarning = false;
+let tags = '';
 
-if (tags) {
-  const tagList = tags.split(',').map(tag => tag.trim());
-  const fixedTags = tagList.map(tag => {
-    if (tag.length > 20) {
-      tagsWarning = true;
-      const words = tag.split(' ');
-      let shortTag = '';
-      for (const word of words) {
-        if ((shortTag + (shortTag ? ' ' : '') + word).length <= 20) {
-          shortTag += (shortTag ? ' ' : '') + word;
-        } else {
-          break;
-        }
-      }
-      return shortTag || words[0].substring(0, 20);
-    }
-    return tag;
-  });
-  tags = fixedTags.join(', ');
+if (tagsMatch) {
+  const { tags: cleanedTags, warning } = cleanTags(tagsMatch[1].trim());
+  tags = cleanedTags;
+  tagsWarning = warning;
 }
   // Store for Copy All
   window.lastGenerated = { title, desc, tags };
@@ -113,6 +98,43 @@ function detectCategory(productName, materials) {
   if (text.match(/digital|download|file|pattern|ebook|guide|course/)) return 'digital';
   return 'physical';
 }
+// Tag Deduplication and Validation
+function cleanTags(tagsString) {
+  if (!tagsString) return { tags: '', warning: false };
+  
+  let warning = false;
+  const tagList = tagsString.split(',').map(tag => tag.trim().toLowerCase());
+  
+  // Remove duplicates and near-duplicates
+  const seen = [];
+  const cleaned = tagList.filter(tag => {
+    if (!tag) return false;
+    
+    // Check length
+    if (tag.length > 20) {
+      warning = true;
+      const words = tag.split(' ');
+      let shortTag = '';
+      for (const word of words) {
+        if ((shortTag + (shortTag ? ' ' : '') + word).length <= 20) {
+          shortTag += (shortTag ? ' ' : '') + word;
+        } else break;
+      }
+      tag = shortTag || words[0].substring(0, 20);
+    }
+    
+    // Check for near-duplicates (same words in different order)
+    const tagWords = tag.split(' ').sort().join(' ');
+    if (seen.includes(tagWords)) return false;
+    seen.push(tagWords);
+    return true;
+  });
+  
+  return {
+    tags: cleaned.join(', '),
+    warning
+  };
+}
 
 // Category Prompts
 function getCategoryPrompt(category, productName, materials, keywords, selectedStyle) {
@@ -140,6 +162,14 @@ DESCRIPTION:
 
 ETSY TAGS:
 [tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8, tag9, tag10, tag11, tag12, tag13]`;
+const tagRules = `
+TAG QUALITY RULES:
+- Use high-volume Etsy search terms only.
+- NEVER repeat the same words in different order (example: "planner printable" and "printable planner" are duplicates — choose ONE).
+- NEVER use generic weak tags like "organizer", "nice", "beautiful", "item".
+- Double-check spelling before returning.
+- Each tag must be a real phrase buyers type into Etsy search.
+- Prefer specific over generic: "weekly planner" beats "planner".`;
 
   const prompts = {
     svg: `You are an expert Etsy seller specializing in SVG and cutting files.
@@ -153,6 +183,7 @@ DESCRIPTION:
 - Explain what the buyer can make with it
 - 100-130 words
 TAGS: Focus on: file format, machine compatibility, design style, use case, craft type
+${tagRules}
 ${shared}`,
 
     template: `You are an expert Etsy seller specializing in digital templates.
@@ -167,6 +198,7 @@ DESCRIPTION:
 - Who it's for (only if clear from the product)
 - 100-130 words
 TAGS: Focus on: template type, platform, use case, industry, format
+${tagRules}
 ${shared}`,
 
     printable: `You are an expert Etsy seller specializing in printable products.
@@ -180,6 +212,7 @@ DESCRIPTION:
 - How to use it (print at home, local print shop)
 - 100-130 words
 TAGS: Focus on: printable type, use case, format, size, occasion (only if provided)
+${tagRules}
 ${shared}`,
 
     jewelry: `You are an expert Etsy seller specializing in handmade jewelry.
@@ -193,6 +226,7 @@ DESCRIPTION:
 - Style and when to wear it (only if implied)
 - 100-130 words
 TAGS: Focus on: jewelry type, material, style, occasion (only if provided), gift use
+${tagRules}
 ${shared}`,
 
     homedecor: `You are an expert Etsy seller specializing in home decor.
@@ -206,6 +240,7 @@ DESCRIPTION:
 - Where to use it and how it looks
 - 100-130 words
 TAGS: Focus on: product type, style, room type, material, occasion (only if provided)
+${tagRules}
 ${shared}`,
 
     digital: `You are an expert Etsy seller specializing in digital products.
@@ -219,6 +254,7 @@ DESCRIPTION:
 - How the buyer uses it
 - 100-130 words
 TAGS: Focus on: product type, use case, format, topic, audience (only if stated)
+${tagRules}
 ${shared}`,
 
     physical: `You are an expert Etsy seller specializing in handmade physical products.
@@ -232,6 +268,7 @@ DESCRIPTION:
 - Who it suits (only if clearly implied)
 - 100-130 words. ${selectedStyle} tone.
 TAGS: Focus on: product type, material, style, use case, occasion (only if provided)
+${tagRules}
 ${shared}`
   };
 
