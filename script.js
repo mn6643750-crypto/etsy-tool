@@ -126,7 +126,7 @@ generateBtn.addEventListener('click', async () => {
               },
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',
-        max_tokens: 2048,
+        max_tokens: 3000,
         messages: [{
           role: 'user',
 content: `You are an experienced Etsy seller with deep knowledge of Etsy SEO and buyer psychology.
@@ -178,7 +178,7 @@ DESCRIPTION:
 [description]
 
 ETSY TAGS:
-[tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8, tag9, tag10, tag11, tag12, tag13]`
+[MUST include exactly 13 tags separated by commas on a single line. Example: tag one, tag two, tag three, tag four, tag five, tag six, tag seven, tag eight, tag nine, tag ten, tag eleven, tag twelve, tag thirteen]`
         }]
       })
     });
