@@ -129,58 +129,56 @@ generateBtn.addEventListener('click', async () => {
         max_tokens: 2048,
         messages: [{
           role: 'user',
-content: `You are an experienced Etsy seller who specializes in SEO-optimized product listings.
+content: `You are an experienced Etsy seller with deep knowledge of Etsy SEO and buyer psychology.
 
-Generate an Etsy listing for this product:
+Your task is to generate a high-quality Etsy product listing based ONLY on the information provided below.
+
+PRODUCT INFORMATION:
 Product: ${productName}
 Materials/Details: ${materials}
 Keywords: ${keywords}
-Style: ${selectedStyle}
+Tone/Style: ${selectedStyle}
 
-STRICT RULES:
-1. Use ONLY the information provided. Do not invent features, materials, or specifications.
-2. If information is missing, omit it. Never assume or infer.
-3. Write like a real Etsy seller, not a generic AI.
-4. Avoid phrases like: "Order now", "Our attention to detail", "elevate your style", "exquisite", "luxurious", "premium", "make a statement".
+ABSOLUTE RULES — NEVER BREAK THESE:
+1. ONLY use information explicitly provided above.
+2. NEVER invent or assume: gender, age, color, size, material, occasion, audience, or any feature not mentioned.
+3. If information is missing, write around what you know. Do not fill gaps with assumptions.
+4. NEVER use these phrases: "Order now", "Don't miss out", "Our attention to detail", "elevate your style", "exquisite", "luxurious", "premium quality", "make a statement", "perfect for anyone", "great gift idea".
+5. Write like a real human Etsy seller, not a marketing robot.
 
 SEO TITLE RULES:
-- Start with the most searched Etsy keyword for this product.
+- Start with the primary search keyword buyers would use on Etsy.
 - Maximum 140 characters.
-- Natural and keyword-rich, not stuffed.
-- Do not add colors or details unless they add search value.
+- Include 2-3 relevant keywords naturally.
+- Do NOT stuff keywords or repeat words.
+- Do NOT add details not provided by the user.
 
 DESCRIPTION RULES:
-- Focus on: what it is, materials, who it's for, and use cases.
-- Sound like a real seller, not a marketing brochure.
 - 120-150 words maximum.
-- ${selectedStyle} tone.
+- First sentence: what the product is and its main feature.
+- Middle: materials, size, use cases, or personalization options (only if provided).
+- End: who it suits or when to use it (only if clearly implied by the product).
+- Tone: ${selectedStyle}.
+- Sound like a real Etsy seller writing to a real buyer.
 
 ETSY TAGS RULES:
-- Exactly 13 tags.
-- CRITICAL: Every single tag MUST be 20 characters or less. Count every character including spaces.
-- Before returning, count each tag's characters. If any tag is over 20 characters, replace it with a shorter version.
-- NEVER use a tag over 20 characters. No exceptions.
-- Use complete natural phrases only.
-- Good examples (count the characters):
-  "personalized gift" = 17 chars ✓
-  "gift for dad" = 12 chars ✓
-  "leather wallet" = 14 chars ✓
-  "custom gift" = 11 chars ✓
-- Bad examples:
-  "personalized gifts for him" = 26 chars ✗ → use "gift for him" instead
-  "fathers day gift ideas" = 22 chars ✗ → use "fathers day gift" instead
-- Separate with commas.
+- Generate exactly 13 tags.
+- EVERY tag must be 20 characters or less. Count carefully.
+- No duplicate tags or near-duplicates.
+- Use phrases real buyers search for on Etsy.
+- No generic tags like "great gift" or "high quality".
+- Prioritize: product type, material, use case, occasion (only if provided), and style.
 
-Return EXACTLY in this format with no extra text:
+OUTPUT FORMAT — Return EXACTLY this structure, nothing else:
 
 SEO TITLE:
-[title here]
+[title]
 
 DESCRIPTION:
-[description here]
+[description]
 
 ETSY TAGS:
-[tag1, tag2, tag3, ...]`
+[tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8, tag9, tag10, tag11, tag12, tag13]`
         }]
       })
     });
