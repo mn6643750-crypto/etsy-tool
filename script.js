@@ -133,10 +133,10 @@ function cleanTags(tagsString) {
     return true;
   });
   
-  return {
-    tags: cleaned.join(', '),
+return {
+    tags: cleaned.slice(0, 13).join(', '),
     warning
-  };
+};
 }
 
 // Category Prompts
@@ -328,7 +328,53 @@ messages: [{
 
 const data = await response.json();
 const rawContent = data.choices[0].message.content;
-console.log('=== RAW AI RESPONSE ===', rawContent);
+
+// Full debug logging
+const detectedCategory = detectCategory(productName, materials);
+const generatedPrompt = getCategoryPrompt(detectedCategory, productName, materials, keywords, selectedStyle);
+console.log('=== 1. DETECTED CATEGORY ===', detectedCategory);
+console.log('=== 2. GENERATED PROMPT ===', generatedPrompt);
+console.log('=== 3. RAW AI RESPONSE ===', rawContent);
+
+const cleaned = rawContent.trim().replace(/\*\*/g, '').replace(/\*/g, '').trim();
+
+const titleMatch = cleaned.match(/(?:SEO\s*TITLE|TITLE)[:\s]+([\s\S]*?)(?=(?:DESCRIPTION|DESC)[:\s]|$)/i);
+const descMatch = cleaned.match(/(?:DESCRIPTION|DESC)[:\s]+([\s\S]*?)(?=(?:ETSY\s*TAGS|TAGS)[:\s]|$)/i);
+const tagsMatch = cleaned.match(/(?:ETSY\s*TAGS|TAGS)[:\s]+([\s\S]*?)$/i);
+
+const title = titleMatch ? titleMatch[1].trim() : '';
+const desc = descMatch ? descMatch[1].trim() : '';
+const tagsRaw = tagsMatch ? tagsMatch[1].trim() : '';
+const { tags } = cleanTags(tagsRaw);
+
+console.log('=== 4. PARSED SECTIONS ===');
+console.log('Title:', title);
+console.log('Description:', desc);
+console.log('Tags:', tagsRaw);
+
+const errors = validateOutput(title, desc, tags);
+console.log('=== 5. VALIDATION ERRORS ===', errors);
+
+if (errors.length > 0) {
+  console.log('=== RETRYING ===');
+  const retryResponse = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'llama-3.1-8b-instant',
+      max_tokens: 3000,
+      messages: [{
+        role: 'user',
+        content: generatedPrompt
+      }]
+    })
+  });
+  const retryData = await retryResponse.json();
+  console.log('=== 6. RETRY RAW RESPONSE ===', retryData.choices[0].message.content);
+  outputText.innerHTML = formatOutput(retryData.choices[0].message.content);
+} else {
+  outputText.innerHTML = formatOutput(rawContent);
+}
 const cleaned = rawContent.trim().replace(/\*\*/g, '').replace(/\*/g, '').trim();
 
 const titleMatch = cleaned.match(/(?:SEO\s*TITLE|TITLE)[:\s]+([\s\S]*?)(?=(?:DESCRIPTION|DESC)[:\s]|$)/i);
