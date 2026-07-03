@@ -37,9 +37,9 @@ function formatOutput(result) {
   const text = result.trim();
   const cleaned = text.replace(/\*\*/g, '').replace(/\*/g, '').trim();
   
-const titleMatch = cleaned.match(/SEO TITLE[:\s]+([\s\S]*?)(?=DESCRIPTION[:\s]|$)/i);
-const descMatch = cleaned.match(/DESCRIPTION[:\s]+([\s\S]*?)(?=ETSY TAGS[:\s]|$)/i);
-const tagsMatch = cleaned.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
+const titleMatch = cleaned.match(/(?:SEO\s*TITLE|TITLE)[:\s]+([\s\S]*?)(?=(?:DESCRIPTION|DESC)[:\s]|$)/i);
+const descMatch = cleaned.match(/(?:DESCRIPTION|DESC)[:\s]+([\s\S]*?)(?=(?:ETSY\s*TAGS|TAGS)[:\s]|$)/i);
+const tagsMatch = cleaned.match(/(?:ETSY\s*TAGS|TAGS)[:\s]+([\s\S]*?)$/i);
 
   const title = titleMatch ? titleMatch[1].trim() : '';
   const desc = descMatch ? descMatch[1].trim() : '';
@@ -326,15 +326,17 @@ messages: [{
 
 const data = await response.json();
 const rawContent = data.choices[0].message.content;
+console.log('=== RAW AI RESPONSE ===', rawContent);
 const cleaned = rawContent.trim().replace(/\*\*/g, '').replace(/\*/g, '').trim();
 
-const titleMatch = cleaned.match(/SEO TITLE[:\s]+([\s\S]*?)(?=DESCRIPTION[:\s]|$)/i);
-const descMatch = cleaned.match(/DESCRIPTION[:\s]+([\s\S]*?)(?=ETSY TAGS[:\s]|$)/i);
-const tagsMatch = cleaned.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
+const titleMatch = cleaned.match(/(?:SEO\s*TITLE|TITLE)[:\s]+([\s\S]*?)(?=(?:DESCRIPTION|DESC)[:\s]|$)/i);
+const descMatch = cleaned.match(/(?:DESCRIPTION|DESC)[:\s]+([\s\S]*?)(?=(?:ETSY\s*TAGS|TAGS)[:\s]|$)/i);
+const tagsMatch = cleaned.match(/(?:ETSY\s*TAGS|TAGS)[:\s]+([\s\S]*?)$/i);
 
 const title = titleMatch ? titleMatch[1].trim() : '';
 const desc = descMatch ? descMatch[1].trim() : '';
 const tagsRaw = tagsMatch ? tagsMatch[1].trim() : '';
+console.log('=== PARSED ===', { title, desc, tagsRaw });
 const { tags } = cleanTags(tagsRaw);
 
 const errors = validateOutput(title, desc, tags);
