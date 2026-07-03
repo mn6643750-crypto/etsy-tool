@@ -1,6 +1,6 @@
 // formatter.js — Output formatting
 
-function formatOutput(result) {
+function formatOutput(result, productName = '', keywords = '', category = 'physical') {
   const text = result.trim();
   const cleaned = text.replace(/\*\*/g, '').replace(/\*/g, '').trim();
 
@@ -11,7 +11,7 @@ function formatOutput(result) {
   const title = titleMatch ? titleMatch[1].trim() : '';
   const desc = descMatch ? descMatch[1].trim() : '';
   const tagsRaw = tagsMatch ? tagsMatch[1].trim() : '';
-  const { tags, warning: tagsWarning } = cleanTags(tagsRaw);
+  const { tags, warning: tagsWarning } = cleanTags(tagsRaw, productName, keywords, category);
 
   window.lastGenerated = { title, desc, tags };
 

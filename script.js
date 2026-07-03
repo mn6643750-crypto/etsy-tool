@@ -89,7 +89,8 @@ const tagsMatch = cleaned.match(/(?:ETSY\s*TAGS|TAGS)[:\s]+([\s\S]*?)$/i);
 const title = titleMatch ? titleMatch[1].trim() : '';
 const desc = descMatch ? descMatch[1].trim() : '';
 const tagsRaw = tagsMatch ? tagsMatch[1].trim() : '';
-const { tags } = cleanTags(tagsRaw);
+const detectedCategory = detectCategory(productName, materials);
+const { tags } = cleanTags(tagsRaw, productName, keywords, detectedCategory);
 
 
 
@@ -112,9 +113,9 @@ if (errors.length > 0) {
   });
   const retryData = await retryResponse.json();
   
-  outputText.innerHTML = formatOutput(retryData.choices[0].message.content);
+outputText.innerHTML = formatOutput(retryData.choices[0].message.content, productName, keywords, detectedCategory);
 } else {
-  outputText.innerHTML = formatOutput(rawContent);
+ outputText.innerHTML = formatOutput(rawContent, productName, keywords, detectedCategory);
 }
 
 
