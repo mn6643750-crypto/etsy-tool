@@ -376,9 +376,7 @@ if (errors.length > 0) {
   outputText.innerHTML = formatOutput(rawContent);
 }
 
-const tagsRaw = tagsMatch ? tagsMatch[1].trim() : '';
-console.log('=== PARSED ===', { title, desc, tagsRaw });
-const { tags } = cleanTags(tagsRaw);
+
 
 const errors = validateOutput(title, desc, tags);
 
