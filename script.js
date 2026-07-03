@@ -104,6 +104,16 @@ function cleanTags(tagsString) {
   
   let warning = false;
   const tagList = tagsString.split(',').map(tag => tag.trim().toLowerCase());
+
+  // Validate output
+function validateOutput(title, desc, tags) {
+  const errors = [];
+  if (!title || title.trim() === '') errors.push('Title is missing');
+  if (!desc || desc.trim() === '') errors.push('Description is missing');
+  const tagList = tags ? tags.split(',').map(t => t.trim()).filter(t => t) : [];
+  if (tagList.length !== 13) errors.push(`Expected 13 tags, got ${tagList.length}`);
+  return errors;
+}
   
   // Remove duplicates and near-duplicates
   const seen = [];
@@ -312,8 +322,44 @@ messages: [{
 })
 });
 
-    const data = await response.json();
-    outputText.innerHTML = formatOutput(data.choices[0].message.content);
+const data = await response.json();
+const rawContent = data.choices[0].message.content;
+const cleaned = rawContent.trim().replace(/\*\*/g, '').replace(/\*/g, '').trim();
+
+const titleMatch = cleaned.match(/SEO TITLE[:\s]+([\s\S]*?)(?=DESCRIPTION[:\s]|$)/i);
+const descMatch = cleaned.match(/DESCRIPTION[:\s]+([\s\S]*?)(?=ETSY TAGS[:\s]|$)/i);
+const tagsMatch = cleaned.match(/ETSY TAGS[:\s]+([\s\S]*?)$/i);
+
+const title = titleMatch ? titleMatch[1].trim() : '';
+const desc = descMatch ? descMatch[1].trim() : '';
+const tagsRaw = tagsMatch ? tagsMatch[1].trim() : '';
+const { tags } = cleanTags(tagsRaw);
+
+const errors = validateOutput(title, desc, tags);
+
+if (errors.length > 0) {
+  // Retry once
+  const retryResponse = await fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'llama-3.1-8b-instant',
+      max_tokens: 3000,
+      messages: [{
+        role: 'user',
+        content: getCategoryPrompt(
+          detectCategory(productName, materials),
+          productName, materials, keywords, selectedStyle
+        )
+      }]
+    })
+  });
+  const retryData = await retryResponse.json();
+  outputText.innerHTML = formatOutput(retryData.choices[0].message.content);
+} else {
+  outputText.innerHTML = formatOutput(rawContent);
+}
+saveResult(productName, outputText.innerHTML);
     trackEvent('generation_success', {
   style: selectedStyle,
   duration_ms: Date.now() - startTime
