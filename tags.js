@@ -167,8 +167,7 @@ function generateFallbackTags(productName, keywords, category) {
     physical: ['handmade gift', 'unique gift', 'handcrafted', 'artisan made', 'gift idea']
   };
   
-  const catFallbacks = categoryFallbacks[category] || categoryFallbacks.physical;
-  fallbacks.push(...catFallbacks);
+
   
   // Add keyword combinations
   for (const kw of keywordList.slice(0, 3)) {

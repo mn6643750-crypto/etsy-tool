@@ -89,7 +89,7 @@ const tagsMatch = cleaned.match(/(?:ETSY\s*TAGS|TAGS)[:\s]+([\s\S]*?)$/i);
 const title = titleMatch ? titleMatch[1].trim() : '';
 const desc = descMatch ? descMatch[1].trim() : '';
 const tagsRaw = tagsMatch ? tagsMatch[1].trim() : '';
-const detectedCategory = detectCategory(productName, materials);
+
 const { tags } = cleanTags(tagsRaw, productName, keywords, detectedCategory);
 
 
