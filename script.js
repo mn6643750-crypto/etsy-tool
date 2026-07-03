@@ -105,15 +105,8 @@ function cleanTags(tagsString) {
   let warning = false;
   const tagList = tagsString.split(',').map(tag => tag.trim().toLowerCase());
 
-  // Validate output
-function validateOutput(title, desc, tags) {
-  const errors = [];
-  if (!title || title.trim() === '') errors.push('Title is missing');
-  if (!desc || desc.trim() === '') errors.push('Description is missing');
-  const tagList = tags ? tags.split(',').map(t => t.trim()).filter(t => t) : [];
-  if (tagList.length !== 13) errors.push(`Expected 13 tags, got ${tagList.length}`);
-  return errors;
-}
+
+
   
   // Remove duplicates and near-duplicates
   const seen = [];
@@ -283,6 +276,15 @@ ${shared}`
   };
 
   return prompts[category] || prompts.physical;
+}
+//  validation function
+function validateOutput(title, desc, tags) {
+  const errors = [];
+  if (!title || title.trim() === '') errors.push('Title is missing');
+  if (!desc || desc.trim() === '') errors.push('Description is missing');
+  const tagList = tags ? tags.split(',').map(t => t.trim()).filter(t => t) : [];
+  if (tagList.length !== 13) errors.push(`Expected 13 tags, got ${tagList.length}`);
+  return errors;
 }
 // Generator
 generateBtn.addEventListener('click', async () => {
