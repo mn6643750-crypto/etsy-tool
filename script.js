@@ -369,7 +369,7 @@ saveResult(productName, outputText.innerHTML);
   style: selectedStyle,
   duration_ms: Date.now() - startTime
 });
-    saveResult(productName, formatOutput(data.choices[0].message.content));
+    
 
 } catch (error) {
     console.error('Generation error:', error);
