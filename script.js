@@ -375,14 +375,7 @@ if (errors.length > 0) {
 } else {
   outputText.innerHTML = formatOutput(rawContent);
 }
-const cleaned = rawContent.trim().replace(/\*\*/g, '').replace(/\*/g, '').trim();
 
-const titleMatch = cleaned.match(/(?:SEO\s*TITLE|TITLE)[:\s]+([\s\S]*?)(?=(?:DESCRIPTION|DESC)[:\s]|$)/i);
-const descMatch = cleaned.match(/(?:DESCRIPTION|DESC)[:\s]+([\s\S]*?)(?=(?:ETSY\s*TAGS|TAGS)[:\s]|$)/i);
-const tagsMatch = cleaned.match(/(?:ETSY\s*TAGS|TAGS)[:\s]+([\s\S]*?)$/i);
-
-const title = titleMatch ? titleMatch[1].trim() : '';
-const desc = descMatch ? descMatch[1].trim() : '';
 const tagsRaw = tagsMatch ? tagsMatch[1].trim() : '';
 console.log('=== PARSED ===', { title, desc, tagsRaw });
 const { tags } = cleanTags(tagsRaw);
