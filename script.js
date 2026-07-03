@@ -347,10 +347,13 @@ if (errors.length > 0) {
       max_tokens: 3000,
       messages: [{
         role: 'user',
-        content: getCategoryPrompt(
-          detectCategory(productName, materials),
-          productName, materials, keywords, selectedStyle
-        )
+      content: (() => {
+        const category = detectCategory(productName, materials);
+        const prompt = getCategoryPrompt(category, productName, materials, keywords, selectedStyle);
+        console.log('Detected category:', category);
+        console.log('Generated prompt:', prompt);
+        return prompt;
+      })()
       }]
     })
   });
@@ -366,8 +369,9 @@ saveResult(productName, outputText.innerHTML);
 });
     saveResult(productName, formatOutput(data.choices[0].message.content));
 
-  } catch (error) {
-    outputText.textContent = 'Something went wrong. Please try again.';
+} catch (error) {
+    console.error('Generation error:', error);
+    outputText.textContent = 'Something went wrong. Please try again. Error: ' + error.message;
     trackEvent('generation_failed', {
       style: selectedStyle,
       duration_ms: Date.now() - startTime
