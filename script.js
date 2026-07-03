@@ -378,33 +378,7 @@ if (errors.length > 0) {
 
 
 
-const errors = validateOutput(title, desc, tags);
-
-if (errors.length > 0) {
-  // Retry once
-  const retryResponse = await fetch('/api/generate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      model: 'llama-3.1-8b-instant',
-      max_tokens: 3000,
-      messages: [{
-        role: 'user',
-      content: (() => {
-        const category = detectCategory(productName, materials);
-        const prompt = getCategoryPrompt(category, productName, materials, keywords, selectedStyle);
-        console.log('Detected category:', category);
-        console.log('Generated prompt:', prompt);
-        return prompt;
-      })()
-      }]
-    })
-  });
-  const retryData = await retryResponse.json();
-  outputText.innerHTML = formatOutput(retryData.choices[0].message.content);
-} else {
-  outputText.innerHTML = formatOutput(rawContent);
-}
+ 
 saveResult(productName, outputText.innerHTML);
     trackEvent('generation_success', {
   style: selectedStyle,
