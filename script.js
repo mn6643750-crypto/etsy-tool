@@ -175,7 +175,7 @@ TAG QUALITY RULES:
 - Prefer specific over generic: "weekly planner" beats "planner".`;
 
   const prompts = {
-    svg: `You are an expert Etsy seller specializing in SVG and cutting files.
+   svg: `You are an expert Etsy seller specializing in SVG and cutting files.
 
 ${base}
 
@@ -187,7 +187,9 @@ DESCRIPTION:
 - 100-130 words
 TAGS: Focus on: file format, machine compatibility, design style, use case, craft type
 ${tagRules}
-${shared}`,
+${shared}
+
+IMPORTANT: You MUST return the title under the heading "SEO TITLE:" exactly. Never leave it empty.`,
 
     template: `You are an expert Etsy seller specializing in digital templates.
 
