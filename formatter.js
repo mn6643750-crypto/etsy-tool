@@ -30,7 +30,7 @@ function formatOutput(result, productName = '', keywords = '', category = 'physi
         <h3>📄 SEO Title</h3>
         <button class="copy-btn" data-copy="${encodeURIComponent(title)}" title="Copy">${COPY_ICON}</button>
       </div>
-      <p class="section-content">${title}</p>
+      <p class="section-content title-text">${title}</p>
     </div>`;
 
   if (desc) html += `

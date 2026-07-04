@@ -767,3 +767,28 @@ textarea {
 .desc-text {
   text-align: left;
 }
+
+/* ===============================
+   Typography
+================================ */
+
+.title-text {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: left;
+  color: #2f2f2f;
+}
+
+.desc-text {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.8;
+  text-align: left;
+  color: #4b4b4b;
+}
+
+.tag-chip {
+  font-size: 14px;
+  padding: 6px 14px;
+}
