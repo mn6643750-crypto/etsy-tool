@@ -166,7 +166,7 @@ body {
 .panel-card {
   background: var(--surface);
   border-radius: var(--radius-lg);
-  padding: 32px;
+  padding: 36px;
   box-shadow: var(--shadow);
   border: 1px solid var(--border);
 }
@@ -282,9 +282,9 @@ textarea {
   background: var(--orange);
   color: white;
   border: none;
-  padding: 15px 24px;
+  padding: 18px 24px;
   border-radius: var(--radius-sm);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -373,10 +373,10 @@ textarea {
   background: var(--surface);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  padding: 20px 24px;
+  padding:32px;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.18s;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
 .section-box:hover {
@@ -391,11 +391,11 @@ textarea {
 }
 
 .section-header h3 {
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-3);
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   margin: 0;
 }
 
@@ -403,28 +403,44 @@ textarea {
   background: var(--surface-2);
   color: var(--text-3);
   border: 1px solid var(--border);
-  padding: 5px 10px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
+
+  width: 40px;
+  height: 40px;
+  padding: 0;
+
+  border-radius: 10px;
+
   cursor: pointer;
-  transition: all 0.18s;
+  transition: all 0.2s ease;
+
   display: flex;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+
   margin-top: 0;
+  flex-shrink: 0;
 }
 
 .copy-btn:hover {
   background: var(--orange-light);
   color: var(--orange);
   border-color: var(--orange);
+  transform: translateY(-1px);
+}
+
+.copy-btn:active {
+  transform: scale(0.96);
+}
+
+.copy-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
 .section-content {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.7;
+  font-size: 17px;
+  line-height: 1.8;
   color: var(--text);
   white-space: pre-wrap;
 }
@@ -437,9 +453,9 @@ textarea {
   background: var(--surface);
   color: var(--orange);
   border: 2px solid var(--orange);
-  padding: 16px 24px;
+  padding: 18px 24px;
   border-radius: var(--radius);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.18s ease;
@@ -749,31 +765,20 @@ textarea {
   margin-top: 4px;
 }
 
-.tag-chip {
-  background: #fff4f0;
-  color: #e95e2f;
-  border: 1px solid rgba(233, 94, 47, 0.2);
-  padding: 4px 12px;
-  border-radius: 50px;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-}
+
 
 .section-content {
   text-align: left;
 }
 
-.desc-text {
-  text-align: left;
-}
+
 
 /* ===============================
    Typography
 ================================ */
 
 .title-text {
-  font-size: 28px;
+  font-size: 34px;
   font-weight: 700;
   line-height: 1.4;
   text-align: left;
@@ -781,14 +786,16 @@ textarea {
 }
 
 .desc-text {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
-  line-height: 1.8;
+  line-height: 1.9;
+  max-width: 900px;
   text-align: left;
   color: #4b4b4b;
 }
 
 .tag-chip {
-  font-size: 14px;
-  padding: 6px 14px;
+  font-size:15px;
+  font-weight:600;
+  padding:8px 16px;
 }
