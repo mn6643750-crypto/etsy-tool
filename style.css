@@ -741,3 +741,29 @@ textarea {
     font-size: 18px;
   }
 }
+
+.tag-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 4px;
+}
+
+.tag-chip {
+  background: #fff4f0;
+  color: #e95e2f;
+  border: 1px solid rgba(233, 94, 47, 0.2);
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.section-content {
+  text-align: left;
+}
+
+.desc-text {
+  text-align: left;
+}
