@@ -15,12 +15,24 @@ const analyzerText = document.getElementById('analyzerText');
 let selectedStyle = 'Professional';
 
 // Tabs
-document.querySelectorAll('.tab').forEach(tab => {
+document.querySelectorAll('.nav-tab').forEach(tab => {
   tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+    document.querySelectorAll('.nav-tab').forEach(t =>
+      t.classList.remove('active')
+    );
+
+    document.querySelectorAll('.tab-content').forEach(content =>
+      content.classList.remove('active')
+    );
+
     tab.classList.add('active');
-    document.getElementById(tab.dataset.tab).classList.add('active');
+
+    const target = document.getElementById(tab.dataset.tab);
+
+    if (target) {
+      target.classList.add('active');
+    }
   });
 });
 
