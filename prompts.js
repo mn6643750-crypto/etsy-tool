@@ -7,14 +7,16 @@ Keywords: ${keywords}
 Style: ${selectedStyle}`;
 
 const tagRules = `
-TAG RULES:
-- Use only high-volume Etsy search terms.
-- Never duplicate or near-duplicate tags (e.g. "svg file" and "file svg" are duplicates).
-- Never use weak tags: "nice", "beautiful", "item", "product", "stuff".
-- Never invent tags based on assumed features.
-- Every tag must be a real phrase Etsy buyers search for.
-- Prefer specific over generic: "weekly planner" beats "planner".
-- Double-check spelling before returning.`;
+TAG RULES — CRITICAL:
+- Generate exactly 13 tags.
+- Every single tag MUST be directly related to THIS specific product only.
+- NEVER use tags from other niches or categories (example: never use "ats resume" for a wedding product).
+- NEVER copy tags from unrelated products.
+- Use natural phrases that Etsy buyers actually search for THIS product.
+- Every tag must be 20 characters or less.
+- No duplicate or near-duplicate tags.
+- If you cannot find 13 unique tags, generate close variations of existing tags instead of using unrelated keywords.
+- Prioritize: product type, style, occasion, material, use case — all based ONLY on the provided product info.`;
 
 const shared = `
 ABSOLUTE RULES — NEVER BREAK THESE:
