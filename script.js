@@ -219,6 +219,21 @@ document.getElementById('clearAllBtn').addEventListener('click', () => {
 });
 
 renderDashboard();
+
+// listner before
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.copy-btn');
+  if (btn && btn.dataset.copy) {
+    if (btn.classList.contains('copied')) return;
+    navigator.clipboard
+      .writeText(decodeURIComponent(btn.dataset.copy))
+      .catch(err => console.error('Copy failed:', err));
+    const orig = btn.innerHTML;
+    btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+    btn.classList.add('copied');
+    setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+  }
+});
 // Copy All
 document.addEventListener('click', function(e) {
   if (e.target.id === 'copyAllBtn') {
