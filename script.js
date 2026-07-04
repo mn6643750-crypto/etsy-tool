@@ -85,6 +85,12 @@ messages: [{
 });
 
 const data = await response.json();
+if (data.error) {
+  throw new Error(data.error);
+}
+if (!data?.choices?.[0]?.message?.content) {
+  throw new Error('Invalid response from AI. Please try again.');
+}
 const rawContent = data.choices[0].message.content;
 
 // Full debug logging
