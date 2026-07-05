@@ -63,6 +63,7 @@ generateBtn.addEventListener('click', async () => {
   outputText.innerHTML = 'Generating your content...';
 
   try {
+        const detectedCategory = detectCategory(productName, materials);
         const response = await fetch('/api/generate', {
               method: 'POST',
               headers: {
@@ -71,16 +72,16 @@ generateBtn.addEventListener('click', async () => {
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',
         max_tokens: 3000,
-messages: [{
-  role: 'user',
-  content: getCategoryPrompt(
-    detectCategory(productName, materials),
-    productName,
-    materials,
-    keywords,
-    selectedStyle
-  )
-}]
+messages: [
+  {
+    role: 'system',
+    content: getSystemPrompt(detectedCategory, selectedStyle)
+  },
+  {
+    role: 'user',
+    content: getUserPrompt(detectedCategory, productName, materials, keywords, selectedStyle)
+  }
+]
 })
 });
 
@@ -94,8 +95,7 @@ if (!data?.choices?.[0]?.message?.content) {
 const rawContent = data.choices[0].message.content;
 
 // Full debug logging
-const detectedCategory = detectCategory(productName, materials);
-const generatedPrompt = getCategoryPrompt(detectedCategory, productName, materials, keywords, selectedStyle);
+
 
 
 const cleaned = rawContent.trim().replace(/\*\*/g, '').replace(/\*/g, '').trim();
@@ -123,10 +123,16 @@ if (errors.length > 0) {
     body: JSON.stringify({
       model: 'llama-3.1-8b-instant',
       max_tokens: 3000,
-      messages: [{
-        role: 'user',
-        content: generatedPrompt
-      }]
+messages: [
+  {
+    role: 'system',
+    content: getSystemPrompt(detectedCategory, selectedStyle)
+  },
+  {
+    role: 'user',
+    content: getUserPrompt(detectedCategory, productName, materials, keywords, selectedStyle)
+  }
+]
     })
   });
   const retryData = await retryResponse.json();
