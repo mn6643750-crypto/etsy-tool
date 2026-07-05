@@ -135,8 +135,13 @@ messages: [
 ]
     })
   });
-  const retryData = await retryResponse.json();
-  
+const retryData = await retryResponse.json();
+if (retryData.error) {
+  throw new Error(retryData.error);
+}
+if (!retryData?.choices?.[0]?.message?.content) {
+  throw new Error('Invalid response from AI. Please try again.');
+}
 outputText.innerHTML = formatOutput(retryData.choices[0].message.content, productName, keywords, detectedCategory);
 } else {
  outputText.innerHTML = formatOutput(rawContent, productName, keywords, detectedCategory);
