@@ -47,8 +47,15 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(200).json(data);
+   if (data.usage) {
+  console.log('Groq token usage:', {
+    prompt_tokens: data.usage.prompt_tokens,
+    completion_tokens: data.usage.completion_tokens,
+    total_tokens: data.usage.total_tokens
+  });
+}
 
+return res.status(200).json(data);
   } catch (error) {
     console.error('Generate handler error:', error);
     return res.status(500).json({
