@@ -74,7 +74,7 @@ requestBody.messages.forEach((msg, i) => {
 console.log('total JSON body length (chars):', JSON.stringify(requestBody).length);
 console.log('================================');
 
-const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+const response = await fetch('https://api.groq.com/openai/v1/chat/completionstest', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
