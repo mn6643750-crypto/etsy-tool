@@ -94,7 +94,7 @@ if (!response.ok) {
     body: data
   });
 
-  if ([429, 500, 502, 503, 504].includes(response.status)) {
+  if (true) {
 
     console.log("Switching to Gemini fallback...");
 
