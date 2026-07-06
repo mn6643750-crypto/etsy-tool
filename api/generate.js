@@ -10,18 +10,31 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
-      },
-      body: JSON.stringify({
-        model: model || 'llama-3.1-8b-instant',
-        max_tokens: max_tokens || 3000,
-        messages
-      })
-    });
+const requestBody = {
+  model: model || 'llama-3.1-8b-instant',
+  max_tokens: max_tokens || 3000,
+  messages
+};
+
+console.log('=== GROQ REQUEST INSPECTION ===');
+console.log('model:', requestBody.model);
+console.log('max_tokens:', requestBody.max_tokens);
+console.log('messages.length:', requestBody.messages.length);
+requestBody.messages.forEach((msg, i) => {
+  console.log(`messages[${i}].role:`, msg.role);
+  console.log(`messages[${i}].content.length (chars):`, msg.content.length);
+});
+console.log('total JSON body length (chars):', JSON.stringify(requestBody).length);
+console.log('================================');
+
+const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+  },
+  body: JSON.stringify(requestBody)
+});
 
     const data = await response.json();
 
