@@ -1,3 +1,50 @@
+async function callGemini(messages) {
+  const system =
+    messages.find(m => m.role === "system")?.content || "";
+
+  const user =
+    messages.find(m => m.role === "user")?.content || "";
+
+  const prompt = `${system}\n\n${user}`;
+
+  const response = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${process.env.GEMINI_API_KEY}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              {
+                text: prompt
+              }
+            ]
+          }
+        ]
+      })
+    }
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.error?.message || "Gemini request failed");
+  }
+
+  return {
+    choices: [
+      {
+        message: {
+          content:
+            data.candidates?.[0]?.content?.parts?.[0]?.text || ""
+        }
+      }
+    ]
+  };
+}
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
