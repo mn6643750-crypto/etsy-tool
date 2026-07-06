@@ -83,20 +83,48 @@ const response = await fetch('https://api.groq.com/openai/v1/chat/completions', 
   body: JSON.stringify(requestBody)
 });
 
-    const data = await response.json();
+const data = await response.json();
 
-    // Log and handle Groq API errors
-    if (!response.ok) {
-      console.error('Groq API error:', {
-        status: response.status,
-        statusText: response.statusText,
-        body: data
-      });
+// لو Groq رجع Rate Limit أو Server Error
+if (!response.ok) {
+
+  console.error('Groq API error:', {
+    status: response.status,
+    statusText: response.statusText,
+    body: data
+  });
+
+  if ([429, 500, 502, 503, 504].includes(response.status)) {
+
+    console.log("Switching to Gemini fallback...");
+
+    try {
+
+      const geminiData = await callGemini(messages);
+
+      console.log("Gemini fallback succeeded.");
+
+      return res.status(200).json(geminiData);
+
+    } catch (geminiError) {
+
+      console.error("Gemini fallback failed:", geminiError);
+
       return res.status(response.status).json({
         error: data?.error?.message || `Groq API returned ${response.status}`,
         details: data
       });
+
     }
+
+  }
+
+  return res.status(response.status).json({
+    error: data?.error?.message || `Groq API returned ${response.status}`,
+    details: data
+  });
+
+}
 
     // Validate response structure
     if (!data?.choices?.[0]?.message?.content) {
