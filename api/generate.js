@@ -74,7 +74,7 @@ requestBody.messages.forEach((msg, i) => {
 console.log('total JSON body length (chars):', JSON.stringify(requestBody).length);
 console.log('================================');
 
-const response = await fetch('https://api.groq.com/openai/v1/chat/completionstest', {
+const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
@@ -94,7 +94,7 @@ if (!response.ok) {
     body: data
   });
 
-  if (true) {
+   if ([429, 500, 502, 503, 504].includes(response.status)) {
 
     console.log("Switching to Gemini fallback...");
 
