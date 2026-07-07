@@ -117,6 +117,13 @@ const errors = validateOutput(title, desc, tags);
 
 if (errors.length > 0) {
 
+   console.warn("Validation failed:", {
+    errors,
+    title,
+    description: desc,
+    tags
+  });
+
   const retryResponse = await fetch('/api/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
