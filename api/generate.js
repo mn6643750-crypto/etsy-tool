@@ -29,9 +29,7 @@ async function callGemini(messages) {
   );
 
   const data = await response.json();
-  console.error("========== RAW GROQ RESPONSE ==========");
-  console.error(data?.choices?.[0]?.message?.content);
-  console.error("======================================");
+
   if (!response.ok) {
     throw new Error(data.error?.message || "Gemini request failed");
   }
@@ -86,6 +84,10 @@ const response = await fetch('https://api.groq.com/openai/v1/chat/completions', 
 });
 
 const data = await response.json();
+
+console.error("========== RAW GROQ RESPONSE ==========");
+console.error(data);
+console.error("======================================");
 
 // لو Groq رجع Rate Limit أو Server Error
 if (!response.ok) {
