@@ -29,9 +29,9 @@ async function callGemini(messages) {
   );
 
   const data = await response.json();
-  console.log("RAW GROQ RESPONSE:");
-console.log(data?.choices?.[0]?.message?.content);
-
+  console.error("========== RAW GROQ RESPONSE ==========");
+  console.error(data?.choices?.[0]?.message?.content);
+  console.error("======================================");
   if (!response.ok) {
     throw new Error(data.error?.message || "Gemini request failed");
   }
