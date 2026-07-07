@@ -191,17 +191,19 @@ analyzeBtn.addEventListener('click', async () => {
   analyzerText.innerHTML = 'Analyzing...';
 
   try {
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+
+    const response = await fetch('/api/generate', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
         model: 'llama-3.1-8b-instant',
-        messages: [{
-          role: 'user',
-          content: `Analyze this Etsy product description and return EXACTLY in this format:
+        max_tokens: 1500,
+        messages: [
+          {
+            role: 'user',
+            content: `Analyze this Etsy product description and return EXACTLY in this format:
 
 SEO SCORE:
 [X/100]
@@ -217,15 +219,29 @@ IMPROVEMENTS:
 
 Description to analyze:
 ${competitorText}`
-        }]
+          }
+        ]
       })
     });
 
     const data = await response.json();
-    analyzerText.innerHTML = formatOutput(data.choices[0].message.content);
+
+    if (data.error) {
+      throw new Error(data.error);
+    }
+
+    if (!data?.choices?.[0]?.message?.content) {
+      throw new Error('Invalid response from AI.');
+    }
+
+    analyzerText.innerHTML = formatOutput(
+      data.choices[0].message.content
+    );
 
   } catch (error) {
-    analyzerText.textContent = 'Something went wrong. Please try again.';
+    console.error(error);
+    analyzerText.textContent =
+      'Something went wrong. Please try again.';
   } finally {
     analyzeBtn.disabled = false;
     analyzeBtn.textContent = '🔍 Analyze';
