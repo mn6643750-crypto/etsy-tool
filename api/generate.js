@@ -85,9 +85,9 @@ const response = await fetch('https://api.groq.com/openai/v1/chat/completions', 
 
 const data = await response.json();
 
-console.error("========== RAW GROQ RESPONSE ==========");
-console.error(data);
-console.error("======================================");
+console.error("========== RAW CONTENT ==========");
+console.error(data?.choices?.[0]?.message?.content);
+console.error("================================");
 
 // لو Groq رجع Rate Limit أو Server Error
 if (!response.ok) {
