@@ -288,3 +288,20 @@ document.addEventListener('click', function(e) {
     trackEvent('copy_all_clicked');
   }
 });
+document.addEventListener("click", function (e) {
+
+  if (e.target.id !== "copyAnalysisBtn") return;
+
+  navigator.clipboard.writeText(
+    decodeURIComponent(e.target.dataset.copy)
+  );
+
+  e.target.textContent = "✅ Copied!";
+
+  setTimeout(() => {
+
+    e.target.textContent = "📋 Copy Analysis";
+
+  }, 2000);
+
+});

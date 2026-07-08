@@ -85,6 +85,31 @@ function formatAnalyzerOutput(result) {
   );
 
   const score = scoreMatch ? scoreMatch[1].trim() : "N/A";
+  const numericScore = parseInt(score) || 0;
+
+let scoreColor = "#d32f2f";
+
+if (numericScore >= 80) {
+  scoreColor = "#2e7d32";
+} else if (numericScore >= 60) {
+  scoreColor = "#f9a825";
+}
+//summary
+let summary = "";
+
+if (numericScore >= 90) {
+  summary =
+    "Excellent listing. Only minor improvements are recommended.";
+} else if (numericScore >= 70) {
+  summary =
+    "Your listing is strong but there is still room for optimization.";
+} else if (numericScore >= 50) {
+  summary =
+    "Your listing has a solid foundation but needs stronger SEO optimization.";
+} else {
+  summary =
+    "Your listing requires significant SEO improvements to become competitive.";
+}
 
 function renderList(text) {
   if (!text) return "<li>No data available.</li>";
@@ -107,16 +132,31 @@ function renderList(text) {
   return `
     <div class="section-box">
       <div class="section-header">
-        <h3>⭐ SEO Score</h3>
+        <h3>SEO Score</h3>
       </div>
-      <p class="section-content" style="font-size:32px;font-weight:700;">
-        ${score}
-      </p>
+        <p
+           class="analysis-score"
+           style="color:${scoreColor};">
+            ${score}
+        </p>
+        <div class="analysis-progress">
+  <div
+    class="analysis-progress-fill"
+    style="
+      width:${numericScore}%;
+      background:${scoreColor};
+    ">
+  </div>
+</div>
+        
+        
+        
+      
     </div>
 
     <div class="section-box">
       <div class="section-header">
-        <h3>✅ Strengths</h3>
+        <h3>Strengths</h3>
       </div>
       <ul class="section-content">
         ${renderList(strengthsMatch?.[1])}
@@ -125,7 +165,7 @@ function renderList(text) {
 
     <div class="section-box">
       <div class="section-header">
-        <h3>❌ Weaknesses</h3>
+        <h3>Weaknesses</h3>
       </div>
       <ul class="section-content">
         ${renderList(weaknessesMatch?.[1])}
@@ -134,11 +174,29 @@ function renderList(text) {
 
     <div class="section-box">
       <div class="section-header">
-        <h3>💡 Improvements</h3>
+        <h3>Improvements</h3>
       </div>
       <ul class="section-content">
         ${renderList(improvementsMatch?.[1])}
       </ul>
     </div>
+    <div class="section-box">
+  <div class="section-header">
+    <h3>Summary</h3>
+  </div>
+
+    <p class="section-content">
+      ${summary}
+    </p>
+  </div>
+
+  <button
+    class="copy-analysis-btn"
+    id="copyAnalysisBtn"
+    data-copy="${encodeURIComponent(cleaned)}">
+
+    📋 Copy Analysis
+
+  </button>
   `;
 }
