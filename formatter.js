@@ -86,20 +86,23 @@ function formatAnalyzerOutput(result) {
 
   const score = scoreMatch ? scoreMatch[1].trim() : "N/A";
 
-  function renderList(text) {
-    if (!text) return "<li>No data available.</li>";
+function renderList(text) {
+  if (!text) return "<li>No data available.</li>";
 
-    return text
-      .split("\n")
-      .map(line =>
-        line
-          .replace(/^[✓✔✗❌•*-]\s*/, "")
-          .trim()
-      )
-      .filter(Boolean)
-      .map(item => `<li>${item}</li>`)
-      .join("");
-  }
+  const items = text
+    .split(/\n+/)
+    .map(line =>
+      line
+        .replace(/^\d+\.\s*/, "")        // Remove numbering مثل 1. 2. 3.
+        .replace(/^[✓✔✗❌•*-]\s*/, "")    // Remove bullets/icons
+        .trim()
+    )
+    .filter(Boolean);
+
+  return items
+    .map(item => `<li>${item}</li>`)
+    .join("");
+}
 
   return `
     <div class="section-box">
