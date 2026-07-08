@@ -70,7 +70,7 @@ function formatAnalyzerOutput(result) {
     .replace(/\*/g, "")
     .trim();
 
-  const scoreMatch = cleaned.match(/SEO\s*SCORE\s*:?\s*([\d]+\s*\/\s*100)/i);
+const scoreMatch = cleaned.match(/(\d+)\s*\/\s*100/i);
 
   const strengthsMatch = cleaned.match(
     /STRENGTHS?\s*:?\s*([\s\S]*?)(?=WEAKNESSES?:|IMPROVEMENTS?:|$)/i
@@ -84,7 +84,9 @@ function formatAnalyzerOutput(result) {
     /IMPROVEMENTS?\s*:?\s*([\s\S]*)$/i
   );
 
-  const score = scoreMatch ? scoreMatch[1].trim() : "N/A";
+ const score = scoreMatch
+  ? `${scoreMatch[1]}/100`
+  : "N/A";
   const numericScore = parseInt(score) || 0;
 
 let scoreColor = "#d32f2f";
