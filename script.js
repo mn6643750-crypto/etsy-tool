@@ -234,9 +234,9 @@ ${competitorText}`
       throw new Error('Invalid response from AI.');
     }
 
-    analyzerText.innerHTML = formatOutput(
-      data.choices[0].message.content
-    );
+analyzerText.innerHTML = formatAnalyzerOutput(
+    data.choices[0].message.content
+);
 
   } catch (error) {
     console.error(error);

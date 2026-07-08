@@ -62,3 +62,80 @@ function formatOutput(result, productName = '', keywords = '', category = 'physi
 
   return html;
 }
+function formatAnalyzerOutput(result) {
+  if (!result) return "";
+
+  const cleaned = result
+    .replace(/\*\*/g, "")
+    .replace(/\*/g, "")
+    .trim();
+
+  const scoreMatch = cleaned.match(/SEO\s*SCORE\s*:?\s*([\d]+\s*\/\s*100)/i);
+
+  const strengthsMatch = cleaned.match(
+    /STRENGTHS?\s*:?\s*([\s\S]*?)(?=WEAKNESSES?:|IMPROVEMENTS?:|$)/i
+  );
+
+  const weaknessesMatch = cleaned.match(
+    /WEAKNESSES?\s*:?\s*([\s\S]*?)(?=IMPROVEMENTS?:|$)/i
+  );
+
+  const improvementsMatch = cleaned.match(
+    /IMPROVEMENTS?\s*:?\s*([\s\S]*)$/i
+  );
+
+  const score = scoreMatch ? scoreMatch[1].trim() : "N/A";
+
+  function renderList(text) {
+    if (!text) return "<li>No data available.</li>";
+
+    return text
+      .split("\n")
+      .map(line =>
+        line
+          .replace(/^[✓✔✗❌•*-]\s*/, "")
+          .trim()
+      )
+      .filter(Boolean)
+      .map(item => `<li>${item}</li>`)
+      .join("");
+  }
+
+  return `
+    <div class="section-box">
+      <div class="section-header">
+        <h3>⭐ SEO Score</h3>
+      </div>
+      <p class="section-content" style="font-size:32px;font-weight:700;">
+        ${score}
+      </p>
+    </div>
+
+    <div class="section-box">
+      <div class="section-header">
+        <h3>✅ Strengths</h3>
+      </div>
+      <ul class="section-content">
+        ${renderList(strengthsMatch?.[1])}
+      </ul>
+    </div>
+
+    <div class="section-box">
+      <div class="section-header">
+        <h3>❌ Weaknesses</h3>
+      </div>
+      <ul class="section-content">
+        ${renderList(weaknessesMatch?.[1])}
+      </ul>
+    </div>
+
+    <div class="section-box">
+      <div class="section-header">
+        <h3>💡 Improvements</h3>
+      </div>
+      <ul class="section-content">
+        ${renderList(improvementsMatch?.[1])}
+      </ul>
+    </div>
+  `;
+}
