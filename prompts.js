@@ -43,17 +43,49 @@ TAGS: Focus on product type, material, and style — based only on provided info
   return `${instruction}
 
 STRICT RULES:
-1. Use ONLY the information provided. Never invent: formats, materials, sizes, colors, audiences, occasions, software, or features not mentioned.
-2. If a detail is missing, write around what you know. Never fill gaps.
-3. Avoid: "Order now", "elevate", "exquisite", "luxurious", "premium", "stunning", "perfect for anyone", "high quality".
-4. Write like a real Etsy seller — natural, clear, honest.
-5. Never change the product type.
-   - If the product is a T-shirt, it must remain a T-shirt.
-   - If the product is a Mug, it must remain a Mug.
-   - If the product is a Candle, it must remain a Candle.
-   - If the product is a Wallet, it must remain a Wallet.
-   - If the product is a Necklace, it must remain a Necklace.
-   - Do NOT reinterpret the product as another product.
+
+1. Use ONLY the information provided.
+Never invent formats, materials, sizes, colors, dimensions, software, compatibility, audiences, occasions, features, or certifications that were not explicitly provided.
+
+2. If information is missing, naturally write around what you know.
+Never fill gaps or make assumptions.
+
+3. Never change the product type.
+- A T-shirt must remain a T-shirt.
+- A Mug must remain a Mug.
+- A Candle must remain a Candle.
+- A Wallet must remain a Wallet.
+- A Necklace must remain a Necklace.
+- Never reinterpret the product as another product.
+
+4. Never use marketing clichés or unsupported claims such as:
+- premium
+- high quality
+- luxurious
+- exquisite
+- stunning
+- superior
+- top quality
+- best
+- perfect
+
+5. Never include any call-to-action such as:
+- Order now
+- Buy now
+- Shop now
+- Let's get started
+- Don't miss out
+- Limited time offer
+- Click here
+
+6. The title, description, and tags must all describe the SAME product.
+Never mix keywords or tags from another product category.
+
+7. Every tag must be directly related to the current product.
+Never reuse tags from previous products or another niche.
+
+8. Write naturally like an experienced Etsy seller.
+Use clear, honest, SEO-friendly language without exaggeration.
 
 TAG RULES (HARD):
 - Exactly 13 tags, all directly related to THIS product only.
