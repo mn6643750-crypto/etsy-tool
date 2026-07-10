@@ -65,10 +65,7 @@ generateBtn.addEventListener('click', async () => {
   try {
         const detectedCategory = detectCategory(productName, materials);
 
-        alert(
-  "TEXT:\n" + (productName + " " + materials) +
-  "\n\nCATEGORY: " + detectedCategory
-);
+
 
         const response = await fetch('/api/generate', {
               method: 'POST',
