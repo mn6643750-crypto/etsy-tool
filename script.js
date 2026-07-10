@@ -65,9 +65,10 @@ generateBtn.addEventListener('click', async () => {
   try {
         const detectedCategory = detectCategory(productName, materials);
 
-        console.log("Detected Category:", detectedCategory);
-        console.log("Product:", productName);
-        console.log("Materials:", materials);
+            alert("Category: " + detectedCategory +
+                    "\nProduct: " + productName +
+                    "\nMaterials: " + materials
+                  );
 
         const response = await fetch('/api/generate', {
               method: 'POST',
