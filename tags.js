@@ -116,13 +116,23 @@ const CATEGORY_FALLBACKS = {
     'decorative art', 'wall decoration', 'home accent',
     'interior decor', 'wall decor gift', 'decor gift'
   ],
-  physical: [
-    'handmade mug', 'ceramic cup', 'pottery mug',
-    'kitchen mug', 'coffee cup', 'tea mug',
-    'ceramic mug', 'stoneware mug', 'handcrafted mug',
-    'pottery gift', 'kitchen gift', 'coffee lover',
-    'tea lover gift', 'unique mug', 'artisan mug'
-  ]
+physical: [
+  'handmade item',
+  'artisan made',
+  'small business',
+  'gift idea',
+  'gift for home',
+  'handcrafted',
+  'everyday use',
+  'unique design',
+  'custom gift',
+  'eco friendly',
+  'minimal style',
+  'thoughtful gift',
+  'quality craft',
+  'modern style',
+  'gift for all'
+]
 };
 
 // Generate fallback tags from product info
