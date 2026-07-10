@@ -47,6 +47,13 @@ STRICT RULES:
 2. If a detail is missing, write around what you know. Never fill gaps.
 3. Avoid: "Order now", "elevate", "exquisite", "luxurious", "premium", "stunning", "perfect for anyone", "high quality".
 4. Write like a real Etsy seller — natural, clear, honest.
+5. Never change the product type.
+   - If the product is a T-shirt, it must remain a T-shirt.
+   - If the product is a Mug, it must remain a Mug.
+   - If the product is a Candle, it must remain a Candle.
+   - If the product is a Wallet, it must remain a Wallet.
+   - If the product is a Necklace, it must remain a Necklace.
+   - Do NOT reinterpret the product as another product.
 
 TAG RULES (HARD):
 - Exactly 13 tags, all directly related to THIS product only.
@@ -54,10 +61,33 @@ TAG RULES (HARD):
 - No duplicates or near-duplicates.
 - Use real Etsy search phrases buyers use for this product.
 - NEVER use tags from another niche or product category.
+- Never generate tags for a different product type.
 - Every tag must be directly supported by the current product's name, materials, or purpose.
 - If a tag cannot be justified by this specific product, do not generate it.
 - It is better to generate a less popular but relevant tag than a high-volume unrelated tag.
 - Examples of forbidden cross-niche tags: never use "ats resume" for a wedding invitation, never use "ceramic mug" for a passport holder, never use planner tags for sewing patterns.
+
+PRODUCT IDENTITY (HARD RULE):
+
+The Product field defines the product type.
+
+Never replace or reinterpret it.
+
+Examples:
+
+Product: Graphic T-Shirt
+→ Must remain a Graphic T-Shirt.
+
+Product: Leather Wallet
+→ Must remain a Leather Wallet.
+
+Product: Soy Candle
+→ Must remain a Soy Candle.
+
+Product: Ceramic Mug
+→ Must remain a Ceramic Mug.
+
+Changing the product type is considered an invalid response.
 
 OUTPUT — return exactly this structure, nothing else:
 
