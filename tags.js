@@ -266,6 +266,47 @@ function cleanTags(tagsString, productName = '', keywords = '', category = 'phys
   // Filter valid tags
   let validTags = deduped.filter(tag => isValidTag(tag));
 
+const CATEGORY_BLOCKLIST = {
+  physical: [
+    'planner',
+    'printable',
+    'svg',
+    'dxf',
+    'cricut',
+    'silhouette'
+  ],
+  jewelry: [
+    'planner',
+    'printable',
+    'svg',
+    'dxf',
+    'cricut'
+  ],
+  digital: [
+    'ring',
+    'necklace',
+    'bracelet',
+    'earring'
+  ],
+  printable: [
+    'ring',
+    'necklace',
+    'bracelet',
+    'earring'
+  ],
+  homedecor: [
+    'planner',
+    'svg',
+    'cricut'
+  ]
+};
+
+const blockedWords = CATEGORY_BLOCKLIST[category] || [];
+
+validTags = validTags.filter(tag =>
+  !blockedWords.some(word => tag.includes(word))
+);
+
   const context = (productName + ' ' + keywords).toLowerCase();
 
 validTags = validTags.filter(tag => {
