@@ -12,6 +12,8 @@ const WEAK_SINGLE_WORDS = new Set([
 function normalizeTag(tag) {
   return tag
     .toLowerCase()
+    .replace(/[+_]/g, ' ')          // + و _ → مسافة
+    .replace(/[\[\]\(\)"']/g, '')   // حذف الأقواس وعلامات الاقتباس
     .replace(/\./g, '')
     .replace(/^\d+[\.\)]\s*/, '')
     .replace(/^[-•*]\s*/, '')
@@ -24,6 +26,17 @@ function isValidTag(tag) {
   if (!tag || tag.length === 0) return false;
   if (tag.length > 20) return false;
   if (WEAK_SINGLE_WORDS.has(tag)) return false;
+  const weakTags = [
+  'professional',
+  'friendly',
+  'modern',
+  'classic',
+  'quality craft',
+  'small business',
+  'gift for all'
+];
+
+if (weakTags.includes(tag)) return false;
   if (tag.split(' ').length === 1 && tag.length < 4) return false;
   return true;
 }
@@ -121,7 +134,7 @@ physical: [
   'artisan made',
   'small business',
   'gift idea',
-  'gift for home',
+  'handmade goods',
   'handcrafted',
   'everyday use',
   'unique design',
@@ -129,9 +142,9 @@ physical: [
   'eco friendly',
   'minimal style',
   'thoughtful gift',
-  'quality craft',
+  'artisan gift',
   'modern style',
-  'gift for all'
+  'everyday gift'
 ]
 };
 
@@ -252,6 +265,15 @@ function cleanTags(tagsString, productName = '', keywords = '', category = 'phys
   
   // Filter valid tags
   let validTags = deduped.filter(tag => isValidTag(tag));
+
+  const context = (productName + ' ' + keywords).toLowerCase();
+
+validTags = validTags.filter(tag => {
+  const words = tag.split(' ');
+  return words.some(word =>
+    word.length > 3 && context.includes(word)
+  );
+});
   
   // Rank by quality
   validTags = rankTags(validTags);
