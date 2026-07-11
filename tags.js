@@ -178,34 +178,6 @@ function generateFallbackTags(productName, keywords, category) {
   
   return fallbacks;
 
-  
-  // Category-based fallbacks
-  const categoryFallbacks = {
-    svg: ['svg cut file', 'cricut svg', 'silhouette cut', 'diy craft svg', 'svg download'],
-    template: ['editable template', 'instant download', 'digital template', 'canva template', 'printable template'],
-    printable: ['printable pdf', 'instant download', 'print at home', 'digital print', 'printable art'],
-    jewelry: ['handmade jewelry', 'minimalist jewelry', 'dainty jewelry', 'gift for her', 'jewelry gift'],
-    homedecor: ['home decor', 'wall decor', 'room decor', 'boho decor', 'modern decor'],
-    digital: ['digital download', 'instant download', 'digital file', 'printable file', 'digital art'],
-    physical: ['handmade gift', 'unique gift', 'handcrafted', 'artisan made', 'gift idea']
-  };
-  
-
-  
-  // Add keyword combinations
-  for (const kw of keywordList.slice(0, 3)) {
-    if (kw.length <= 20 && !WEAK_SINGLE_WORDS.has(kw)) {
-      fallbacks.push(kw);
-    }
-  }
-  
-  // Add product name combinations
-  if (productWords.length >= 2) {
-    const combo = productWords.slice(0, 2).join(' ');
-    if (combo.length <= 20) fallbacks.push(combo);
-  }
-  
-  return fallbacks;
 }
 
 // Rank tags by quality
@@ -346,9 +318,7 @@ if (blockedWords.some(word => normalized.includes(word))) {
     }
   }
   
-  console.log("Category:", category);
-  console.log("Raw Tags:", tagsString);
-  console.log("Clean Tags:", validTags);
+
 
   return {
     tags: validTags.join(', '),
