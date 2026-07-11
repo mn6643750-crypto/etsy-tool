@@ -332,6 +332,11 @@ validTags = validTags.filter(tag => {
     for (const fallback of fallbacks) {
       if (validTags.length >= 13) break;
       const normalized = normalizeTag(fallback);
+      const blockedWords = CATEGORY_BLOCKLIST[category] || [];
+
+if (blockedWords.some(word => normalized.includes(word))) {
+  continue;
+}
       if (!normalized || normalized.length > 20) continue;
       if (!isValidTag(normalized)) continue;
       const isDuplicate = validTags.some(existing => areNearDuplicates(existing, normalized));
@@ -341,6 +346,10 @@ validTags = validTags.filter(tag => {
     }
   }
   
+  console.log("Category:", category);
+  console.log("Raw Tags:", tagsString);
+  console.log("Clean Tags:", validTags);
+
   return {
     tags: validTags.join(', '),
     warning: warning || validTags.length !== 13
