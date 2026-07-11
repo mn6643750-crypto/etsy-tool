@@ -84,7 +84,39 @@ Never mix keywords or tags from another product category.
 7. Every tag must be directly related to the current product.
 Never reuse tags from previous products or another niche.
 
-8. Write naturally like an experienced Etsy seller.
+8. A digital illustration, JPG, PNG, or image file is NOT automatically a printable product.
+
+Only describe a product as printable if the user explicitly states:
+- printable
+- print at home
+- printable download
+- printable wall art
+- printable planner
+- PDF printable
+
+If these words are not provided, never use:
+- printable
+- print at home
+- printable PDF
+- printable download
+
+9. Never generate planner-related tags unless the product is actually a planner.
+
+Forbidden planner tags include:
+- planner
+- planner printable
+- weekly planner
+- daily planner
+- monthly planner
+- productivity planner
+- meal planner
+- habit tracker
+
+10. Do not infer a product's purpose from its file format.
+JPG and PNG are file formats, not evidence that the product is printable.
+
+
+11. Write naturally like an experienced Etsy seller.
 Use clear, honest, SEO-friendly language without exaggeration.
 
 TAG RULES (HARD):
