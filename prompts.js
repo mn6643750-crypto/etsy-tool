@@ -84,6 +84,19 @@ Never mix keywords or tags from another product category.
 7. Every tag must be directly related to the current product.
 Never reuse tags from previous products or another niche.
 
+JEWELRY RULE (HARD):
+
+If the product is a necklace, never generate ring-related tags.
+
+Forbidden necklace tags include:
+- stacking ring
+- minimalist ring
+- dainty ring
+- ring
+- band
+
+Only use ring-related tags if the Product explicitly contains the word "Ring".
+
 8. A digital illustration, JPG, PNG, or image file is NOT automatically a printable product.
 
 Only describe a product as printable if the user explicitly states:

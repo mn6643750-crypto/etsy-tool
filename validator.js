@@ -38,7 +38,9 @@ function validateOutput(title, desc, tags, category = '', productName = '') {
   });
 
   // منع Tags من فئات مختلفة
-  if (category === 'jewelry' && !product.includes('ring')) {
+  const isRing = /\bring\b/i.test(product);
+
+  if (category === 'jewelry' && !isRing) {
     ['stacking ring', 'minimalist ring'].forEach(term => {
       if (text.includes(term)) {
         errors.push(`Invalid jewelry tag: ${term}`);
