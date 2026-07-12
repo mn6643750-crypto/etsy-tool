@@ -205,7 +205,17 @@ const retryErrors = validateOutput(
 );
 
 if (retryErrors.length > 0) {
-  throw new Error('Retry response also failed validation.');
+  console.warn("Retry validation failed:", {
+    retryErrors,
+    retryTitle,
+    retryDesc,
+    retryTags
+  });
+
+  throw new Error(
+    "Retry response also failed validation:\n" +
+    retryErrors.join("\n")
+  );
 }
 
 outputText.innerHTML = formatOutput(
