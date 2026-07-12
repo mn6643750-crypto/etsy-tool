@@ -142,7 +142,40 @@ messages: [
   },
   {
     role: 'user',
-    content: getUserPrompt(detectedCategory, productName, materials, keywords, selectedStyle)
+    content: getUserPrompt(
+      detectedCategory,
+      productName,
+      materials,
+      keywords,
+      selectedStyle
+    )
+  },
+  {
+    role: 'user',
+    content: `Your previous response failed validation.
+
+Validation errors:
+${errors.join('\n')}
+
+Regenerate the ENTIRE response.
+
+Rules:
+- Fix every validation error.
+- Remove invalid tags.
+- Remove unsupported claims.
+- Do not invent information.
+- Do not repeat the same mistakes.
+
+Return ONLY this format:
+
+SEO TITLE:
+...
+
+DESCRIPTION:
+...
+
+ETSY TAGS:
+[tag1, tag2, ..., tag13]`
   }
 ]
     })
@@ -154,7 +187,33 @@ if (retryData.error) {
 if (!retryData?.choices?.[0]?.message?.content) {
   throw new Error('Invalid response from AI. Please try again.');
 }
-outputText.innerHTML = formatOutput(retryData.choices[0].message.content, productName, keywords, detectedCategory);
+const retryContent = retryData.choices[0].message.content;
+
+const cleanedRetry = retryContent.trim().replace(/\*\*/g, '').replace(/\*/g, '').trim();
+
+const retryTitle = cleanedRetry.match(/(?:SEO\s*TITLE|TITLE)[:\s]+([\s\S]*?)(?=(?:DESCRIPTION|DESC)[:\s]|$)/i)?.[1]?.trim() || '';
+const retryDesc = cleanedRetry.match(/(?:DESCRIPTION|DESC)[:\s]+([\s\S]*?)(?=(?:ETSY\s*TAGS|TAGS)[:\s]|$)/i)?.[1]?.trim() || '';
+const retryTagsRaw = cleanedRetry.match(/(?:ETSY\s*TAGS|TAGS)[:\s]+([\s\S]*?)$/i)?.[1]?.trim() || '';
+
+const { tags: retryTags } = cleanTags(retryTagsRaw, productName, keywords, detectedCategory);
+
+const retryErrors = validateOutput(
+  retryTitle,
+  retryDesc,
+  retryTags,
+  detectedCategory
+);
+
+if (retryErrors.length > 0) {
+  throw new Error('Retry response also failed validation.');
+}
+
+outputText.innerHTML = formatOutput(
+  retryContent,
+  productName,
+  keywords,
+  detectedCategory
+);
 } else {
  outputText.innerHTML = formatOutput(rawContent, productName, keywords, detectedCategory);
 }
