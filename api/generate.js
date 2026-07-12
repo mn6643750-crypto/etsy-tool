@@ -58,7 +58,7 @@ export default async function handler(req, res) {
 
   try {
 const requestBody = {
-  model: model || 'llama-3.1-8b-instant',
+  model: model || 'gpt-oss-120b',
   max_tokens: max_tokens ?? 1500,
   messages
 };
@@ -74,11 +74,11 @@ requestBody.messages.forEach((msg, i) => {
 console.log('total JSON body length (chars):', JSON.stringify(requestBody).length);
 console.log('================================');
 
-const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+const response = await fetch('https://api.cerebras.ai/v1/chat/completions', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
+    'Authorization': `Bearer ${process.env.CEREBRAS_API_KEY}`
   },
   body: JSON.stringify(requestBody)
 });
