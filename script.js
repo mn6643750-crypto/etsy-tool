@@ -133,7 +133,7 @@ if (errors.length > 0) {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      model: 'llama-3.1-8b-instant',
+      model: 'gpt-oss-120b',
       max_tokens: 1500,
 messages: [
   {
