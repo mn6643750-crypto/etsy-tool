@@ -117,7 +117,13 @@ const { tags } = cleanTags(tagsRaw, productName, keywords, detectedCategory);
 
 
 
-const errors = validateOutput(title, desc, tags, detectedCategory);
+const errors = validateOutput(
+  title,
+  desc,
+  tags,
+  detectedCategory,
+  productName
+);
 
 
 if (errors.length > 0) {
@@ -201,7 +207,8 @@ const retryErrors = validateOutput(
   retryTitle,
   retryDesc,
   retryTags,
-  detectedCategory
+  detectedCategory,
+  productName
 );
 
 if (retryErrors.length > 0) {
