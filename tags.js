@@ -247,13 +247,16 @@ const CATEGORY_BLOCKLIST = {
     'cricut',
     'silhouette'
   ],
-  jewelry: [
-    'planner',
-    'printable',
-    'svg',
-    'dxf',
-    'cricut'
-  ],
+jewelry: [
+  'planner',
+  'printable',
+  'svg',
+  'dxf',
+  'cricut',
+  'stacking ring',
+  'minimalist ring',
+  'dainty ring'
+],
   digital: [
     'ring',
     'necklace',
