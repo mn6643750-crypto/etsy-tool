@@ -99,33 +99,41 @@ const CATEGORY_FALLBACKS = {
 // Generate fallback tags from product info
 function generateFallbackTags(productName, keywords, category) {
   const fallbacks = [];
-  
-  const productWords = productName.toLowerCase().split(' ').filter(w => w.length > 3);
-  const keywordList = keywords.toLowerCase().split(',').map(k => k.trim()).filter(k => k.length > 3);
-  
-  // 1. First try product name combinations
-  if (productWords.length >= 2) {
-    const combo = productWords.slice(0, 2).join(' ');
-    if (combo.length <= 20) fallbacks.push(combo);
-  }
-  if (productWords.length >= 3) {
-    const combo = productWords.slice(0, 3).join(' ');
-    if (combo.length <= 20) fallbacks.push(combo);
-  }
-  
-  // 2. Then try keywords
-  for (const kw of keywordList.slice(0, 5)) {
-    if (kw.length <= 20 && !WEAK_SINGLE_WORDS.has(kw)) {
-      fallbacks.push(kw);
+
+  const source = `${productName},${keywords}`;
+
+  const phrases = source
+    .split(',')
+    .map(t => normalizeTag(t))
+    .filter(Boolean);
+
+  for (const phrase of phrases) {
+    if (
+      phrase.length <= 20 &&
+      isValidTag(phrase) &&
+      !fallbacks.includes(phrase)
+    ) {
+      fallbacks.push(phrase);
     }
   }
-  
-  // 3. Finally use category-specific fallbacks ONLY
-  const catFallbacks = CATEGORY_FALLBACKS[category] || CATEGORY_FALLBACKS.physical;
-  fallbacks.push(...catFallbacks);
-  
-  return fallbacks;
 
+  const words = source
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter(w => w.length > 3);
+
+  for (const word of words) {
+    if (
+      word.length <= 20 &&
+      !fallbacks.includes(word) &&
+      !WEAK_SINGLE_WORDS.has(word)
+    ) {
+      fallbacks.push(word);
+    }
+  }
+
+  return fallbacks;
 }
 
 // Rank tags by quality
@@ -250,23 +258,6 @@ validTags = validTags.filter(tag => {
   // If fewer than 13, add fallbacks
   if (validTags.length < 13) {
     warning = true;
-    const fallbacks = generateFallbackTags(productName, keywords, category);
-    
-    for (const fallback of fallbacks) {
-      if (validTags.length >= 13) break;
-      const normalized = normalizeTag(fallback);
-      const blockedWords = CATEGORY_BLOCKLIST[category] || [];
-
-if (blockedWords.some(word => normalized.includes(word))) {
-  continue;
-}
-      if (!normalized || normalized.length > 20) continue;
-      if (!isValidTag(normalized)) continue;
-      const isDuplicate = validTags.some(existing => areNearDuplicates(existing, normalized));
-      if (!isDuplicate) {
-        validTags.push(normalized);
-      }
-    }
   }
   
 

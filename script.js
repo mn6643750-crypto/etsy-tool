@@ -158,7 +158,7 @@ messages: [
   },
  {
   role: 'user',
-  content: `Your previous response failed validation.
+content: `Your previous response failed validation.
 
 Validation errors:
 ${errors.join('\n')}
@@ -166,25 +166,19 @@ ${errors.join('\n')}
 The product is:
 ${productName}
 
-Important:
-If the product is NOT a ring, NEVER generate these tags:
-- stacking ring
-- minimalist ring
-- dainty ring
-- ring
-- band
-
-Generate 13 NEW Etsy tags that are directly related to this product.
-
-Do not reuse any invalid tags.
-
 Regenerate the ENTIRE response.
 
-Rules:
-- Fix every validation error.
-- Remove unsupported claims.
+Requirements:
+
+- Fix every validation error listed above.
+- Keep the same product type.
+- Use ONLY the provided product information.
+- Remove every invalid tag.
+- Replace invalid tags with NEW relevant tags.
+- Generate EXACTLY 13 unique Etsy tags.
+- Every tag must directly relate to this product.
+- Never reuse invalid tags from the previous response.
 - Do not invent information.
-- Return exactly 13 Etsy tags.
 
 Return ONLY this format:
 
