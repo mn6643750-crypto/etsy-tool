@@ -134,13 +134,23 @@ if (!response.ok) {
 }
 
     // Validate response structure
-    if (!data?.choices?.[0]?.message?.content) {
-      console.error('Groq API unexpected response structure:', data);
-      return res.status(500).json({
-        error: 'Groq API returned an unexpected response format',
-        details: data
-      });
-    }
+const content = data?.choices?.[0]?.message?.content;
+
+console.log(JSON.stringify(data, null, 2));
+if (!content) {
+  console.error("Unexpected response:", data);
+
+  return res.status(500).json({
+    error: "AI returned an unexpected response format",
+    details: data
+  });
+}
+
+if (Array.isArray(content)) {
+  data.choices[0].message.content = content
+    .map(part => part.text || "")
+    .join("");
+}
 
    if (data.usage) {
   console.log('Groq token usage:', {
