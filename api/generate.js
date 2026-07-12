@@ -137,6 +137,8 @@ if (!response.ok) {
 const content = data?.choices?.[0]?.message?.content;
 
 console.log(JSON.stringify(data, null, 2));
+console.log("FULL CEREBRAS RESPONSE:");
+console.log(JSON.stringify(data, null, 2));
 if (!content) {
   console.error("Unexpected response:", data);
 
