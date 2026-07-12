@@ -133,7 +133,8 @@ function generateFallbackTags(productName, keywords, category) {
     }
   }
 
-  return fallbacks;
+  const unique = [...new Set(fallbacks)];
+  return unique.slice(0, 30);
 }
 
 // Rank tags by quality
@@ -208,10 +209,7 @@ jewelry: [
   'printable',
   'svg',
   'dxf',
-  'cricut',
-  'stacking ring',
-  'minimalist ring',
-  'dainty ring'
+  'cricut'
 ],
   digital: [
     'ring',
@@ -234,19 +232,21 @@ jewelry: [
 
 const blockedWords = CATEGORY_BLOCKLIST[category] || [];
 
+const isRing = /\bring\b/i.test(productName);
+
+if (category === 'jewelry' && !isRing) {
+  blockedWords.push(
+    'stacking ring',
+    'minimalist ring',
+    'dainty ring'
+  );
+}
+
 validTags = validTags.filter(tag =>
   !blockedWords.some(word => tag.includes(word))
 );
 
-  const context = (productName + ' ' + keywords).toLowerCase();
 
-validTags = validTags.filter(tag => {
-  const words = tag.split(' ');
-  return words.some(word =>
-    word.length > 3 && context.includes(word)
-  );
-});
-  
   // Rank by quality
   validTags = rankTags(validTags);
   
@@ -255,10 +255,27 @@ validTags = validTags.filter(tag => {
     validTags = validTags.slice(0, 13);
   }
   
-  // If fewer than 13, add fallbacks
-  if (validTags.length < 13) {
-    warning = true;
+// If fewer than 13, add fallbacks
+if (validTags.length < 13) {
+  warning = true;
+
+  const fallbacks = generateFallbackTags(
+    productName,
+    keywords,
+    category
+  );
+
+  for (const tag of fallbacks) {
+    if (validTags.length >= 13) break;
+
+    if (
+      !validTags.some(existing => areNearDuplicates(existing, tag)) &&
+      isValidTag(tag)
+    ) {
+      validTags.push(tag);
+    }
   }
+}
   
 
 
