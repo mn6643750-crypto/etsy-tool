@@ -73,7 +73,7 @@ generateBtn.addEventListener('click', async () => {
                 'Content-Type': 'application/json',
               },
       body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
+        model: 'gpt-oss-120b',
         max_tokens: 1500,
 messages: [
   {
@@ -203,7 +203,7 @@ analyzeBtn.addEventListener('click', async () => {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        model: 'llama-3.1-8b-instant',
+        model: 'gpt-oss-120b',
         max_tokens: 1500,
         messages: [
           {
