@@ -156,21 +156,35 @@ messages: [
       selectedStyle
     )
   },
-  {
-    role: 'user',
-    content: `Your previous response failed validation.
+ {
+  role: 'user',
+  content: `Your previous response failed validation.
 
 Validation errors:
 ${errors.join('\n')}
+
+The product is:
+${productName}
+
+Important:
+If the product is NOT a ring, NEVER generate these tags:
+- stacking ring
+- minimalist ring
+- dainty ring
+- ring
+- band
+
+Generate 13 NEW Etsy tags that are directly related to this product.
+
+Do not reuse any invalid tags.
 
 Regenerate the ENTIRE response.
 
 Rules:
 - Fix every validation error.
-- Remove invalid tags.
 - Remove unsupported claims.
 - Do not invent information.
-- Do not repeat the same mistakes.
+- Return exactly 13 Etsy tags.
 
 Return ONLY this format:
 
@@ -181,8 +195,8 @@ DESCRIPTION:
 ...
 
 ETSY TAGS:
-[tag1, tag2, ..., tag13]`
-  }
+[tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8, tag9, tag10, tag11, tag12, tag13]`
+}
 ]
     })
   });
