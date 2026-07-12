@@ -30,6 +30,9 @@ async function callGemini(messages) {
 
   const data = await response.json();
 
+  console.log("Status:", response.status);
+  console.log("Response:", JSON.stringify(data, null, 2));
+
   if (!response.ok) {
     throw new Error(data.error?.message || "Gemini request failed");
   }
@@ -59,7 +62,7 @@ export default async function handler(req, res) {
   try {
 const requestBody = {
   model: model || 'gpt-oss-120b',
-  max_tokens: max_tokens ?? 1500,
+  max_completion_tokens: max_tokens ?? 1500,
   messages
 };
 
