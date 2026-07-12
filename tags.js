@@ -87,65 +87,13 @@ function shortenTag(tag) {
 // Generate fallback tags from product info
 // Category-specific fallback pools
 const CATEGORY_FALLBACKS = {
-  printable: [
-    'printable pdf', 'planner printable', 'weekly planner pdf',
-    'planner pages', 'productivity planner', 'meal planner',
-    'habit tracker', 'daily planner', 'monthly planner',
-    'budget planner', 'fitness planner', 'goal planner',
-    'print at home', 'instant download', 'digital planner'
-  ],
-  svg: [
-    'svg bundle', 'cricut svg', 'silhouette svg',
-    'cut files', 'dxf files', 'eps files',
-    'png files', 'vinyl decals', 'svg cut file',
-    'digital cut file', 'craft svg', 'svg design',
-    'clipart svg', 'vector file', 'layered svg'
-  ],
-  template: [
-    'canva template', 'editable template', 'instant download',
-    'printable template', 'digital template', 'ats resume',
-    'resume template', 'editable cv', 'canva resume',
-    'professional resume', 'modern resume', 'resume design',
-    'cv template', 'job application', 'word template'
-  ],
-  digital: [
-    'wedding invitation', 'editable invitation', 'canva invitation',
-    'wedding stationery', 'printable invitation', 'digital invite',
-    'instant download', 'digital download', 'editable card',
-    'printable card', 'digital stationery', 'party invitation',
-    'birthday invite', 'bridal shower', 'save the date'
-  ],
-  jewelry: [
-    'minimalist ring', 'stacking ring', 'gold filled',
-    'everyday jewelry', 'dainty jewelry', 'delicate ring',
-    'simple necklace', 'layering necklace', 'tiny necklace',
-    'minimalist jewelry', 'dainty necklace', 'simple ring',
-    'gift for her', 'jewelry gift', 'handmade jewelry'
-  ],
-  homedecor: [
-    'boho wall decor', 'modern home decor', 'wall hanging',
-    'room decor', 'living room decor', 'bedroom decor',
-    'minimalist decor', 'wall art decor', 'home wall art',
-    'decorative art', 'wall decoration', 'home accent',
-    'interior decor', 'wall decor gift', 'decor gift'
-  ],
-physical: [
-  'handmade item',
-  'artisan made',
-  'small business',
-  'gift idea',
-  'handmade goods',
-  'handcrafted',
-  'everyday use',
-  'unique design',
-  'custom gift',
-  'eco friendly',
-  'minimal style',
-  'thoughtful gift',
-  'artisan gift',
-  'modern style',
-  'everyday gift'
-]
+  printable: [],
+  svg: [],
+  template: [],
+  digital: [],
+  jewelry: [],
+  homedecor: [],
+  physical: []
 };
 
 // Generate fallback tags from product info
