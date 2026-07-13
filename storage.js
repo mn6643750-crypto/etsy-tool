@@ -27,7 +27,7 @@ function renderDashboard() {
         <span class="saved-item-title">${item.productName}</span>
         <div>
           <span class="saved-item-date">${item.date}</span>
-          <button class="delete-btn" onclick="deleteItem(${item.id})">🗑️</button>
+          <button class="delete-btn" onclick="deleteItem('${item.id}')">🗑️</button>
         </div>
       </div>
       <div>${item.content}</div>
@@ -37,7 +37,10 @@ function renderDashboard() {
 
 function deleteItem(id) {
   let saved = JSON.parse(localStorage.getItem('etsySaved') || '[]');
-  saved = saved.filter(item => item.id !== id);
+
+  saved = saved.filter(item => String(item.id) !== String(id));
+
   localStorage.setItem('etsySaved', JSON.stringify(saved));
+
   renderDashboard();
 }
