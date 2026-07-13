@@ -51,7 +51,7 @@ function areNearDuplicates(tag1, tag2) {
   if (words1 === words2) return true;
   
   // Check singular/plural (ceramic vs ceramics)
-  const normalize = w => w.replace(/s$/, '').replace(/ies$/, 'y');
+  const normalize = w => w.replace(/ies$/, 'y').replace(/s$/, '');
   const norm1 = tag1.split(' ').map(normalize).sort().join(' ');
   const norm2 = tag2.split(' ').map(normalize).sort().join(' ');
   if (norm1 === norm2) return true;
@@ -230,7 +230,7 @@ jewelry: [
   ]
 };
 
-const blockedWords = CATEGORY_BLOCKLIST[category] || [];
+const blockedWords = [...(CATEGORY_BLOCKLIST[category] || [])];
 
 const isRing = /\bring\b/i.test(productName);
 

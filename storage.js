@@ -3,7 +3,7 @@
 function saveResult(productName, content) {
   const saved = JSON.parse(localStorage.getItem('etsySaved') || '[]');
   saved.unshift({
-    id: Date.now(),
+    id: crypto.randomUUID?.() || (Date.now().toString() + Math.random()),
     productName,
     content,
     date: new Date().toLocaleDateString()
