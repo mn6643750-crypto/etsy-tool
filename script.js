@@ -74,7 +74,7 @@ generateBtn.addEventListener('click', async () => {
               },
       body: JSON.stringify({
         model: 'gpt-oss-120b',
-        max_tokens: 1500,
+        max_tokens: 3000,
 messages: [
   {
     role: 'system',
@@ -142,7 +142,7 @@ if (errors.length > 0) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'gpt-oss-120b',
-      max_tokens: 1500,
+      max_tokens: 3000,
 messages: [
   {
     role: 'system',

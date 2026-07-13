@@ -62,9 +62,12 @@ export default async function handler(req, res) {
   try {
 const requestBody = {
   model: model || 'gpt-oss-120b',
-  max_completion_tokens: max_tokens ?? 1500,
+  max_completion_tokens: max_tokens ?? 3000,
   messages
 };
+
+console.log("REQUEST BODY:");
+console.log(JSON.stringify(requestBody, null, 2));
 
 console.log('=== GROQ REQUEST INSPECTION ===');
 console.log('model:', requestBody.model);
