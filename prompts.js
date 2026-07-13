@@ -180,7 +180,36 @@ unless they are part of a longer search phrase.
 
 - Never describe a product as printable unless the word "printable" is explicitly provided.
 
-- Ring tags are allowed ONLY when the Product contains the word "Ring".`;
+- Ring tags are allowed ONLY when the Product contains the word "Ring".
+OUTPUT FORMAT
+
+Return plain text only.
+
+Do NOT use Markdown.
+
+Do NOT use bold formatting.
+
+Do NOT use headings such as:
+Title:
+Description:
+Tags:
+
+The section headers MUST be EXACTLY:
+
+SEO TITLE:
+DESCRIPTION:
+ETSY TAGS:
+
+Return ONLY this format:
+
+SEO TITLE:
+...
+
+DESCRIPTION:
+...
+
+ETSY TAGS:
+[tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8, tag9, tag10, tag11, tag12, tag13]`;
 }
 
 function getUserPrompt(category, productName, materials, keywords, selectedStyle) {
