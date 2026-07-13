@@ -89,6 +89,8 @@ messages: [
 });
 
 const data = await response.json();
+console.log("FULL RESPONSE:", data);
+console.log("CONTENT:", data?.choices?.[0]?.message?.content);
 if (data.error) {
   throw new Error(data.error);
 }
@@ -314,6 +316,9 @@ ${competitorText}`
     });
 
     const data = await response.json();
+
+    console.log("RETRY RESPONSE:", retryData);
+    console.log("RETRY CONTENT:", retryData?.choices?.[0]?.message?.content);
 
     if (data.error) {
       throw new Error(data.error);
