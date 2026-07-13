@@ -68,7 +68,7 @@ const requestBody = {
 
 console.log('=== GROQ REQUEST INSPECTION ===');
 console.log('model:', requestBody.model);
-console.log('max_tokens:', requestBody.max_tokens);
+console.log('max_completion_tokens:', requestBody.max_completion_tokens);
 console.log('messages.length:', requestBody.messages.length);
 requestBody.messages.forEach((msg, i) => {
   console.log(`messages[${i}].role:`, msg.role);
@@ -136,10 +136,10 @@ if (!response.ok) {
     // Validate response structure
 const content = data?.choices?.[0]?.message?.content;
 
-console.log(JSON.stringify(data, null, 2));
+
 console.log("FULL CEREBRAS RESPONSE:");
 console.log(JSON.stringify(data, null, 2));
-if (!content) {
+if (typeof content !== "string") {
   console.error("Unexpected response:", data);
 
   return res.status(500).json({
