@@ -227,6 +227,12 @@ If the answer is NO, remove it.
 
 The final output must contain ZERO invented facts.
 
+Never combine provided words into new search phrases unless the exact phrase is explicitly provided in the Keywords or Product Information.
+
+Do not invent keyword combinations.
+
+If an exact phrase is not provided, do not generate it as a tag.
+
 OUTPUT FORMAT
 
 Return plain text only. No Markdown or bold formatting.
