@@ -287,7 +287,10 @@ textarea {
   font-size: 17px;
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.18s ease;
+  transition:
+  background 0.2s ease,
+  transform 0.2s ease,
+  box-shadow 0.2s ease;
   width: 100%;
   margin-top: 4px;
   box-shadow: 0 4px 16px var(--orange-glow);
@@ -297,7 +300,7 @@ textarea {
 .btn-generate:hover {
   background: var(--orange-dark);
   box-shadow: 0 6px 24px rgba(233, 94, 47, 0.3);
-  transform: translateY(-1px);
+  transform: translateY(-1px) scale(1.02);
 }
 
 .btn-generate:active {
@@ -343,14 +346,14 @@ textarea {
   background: var(--surface);
   border-radius: var(--radius-lg);
   border: 2px dashed var(--border);
-  padding: 60px 40px;
+  padding: 72px 40px;
   text-align: center;
   color: var(--text-3);
 }
 
 .output-empty .empty-icon {
   font-size: 36px;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
   opacity: 0.5;
 }
 
@@ -373,10 +376,14 @@ textarea {
   background: var(--surface);
   border-radius: var(--radius);
   border: 1px solid var(--border);
-  padding:32px;
+  padding:36px;
   box-shadow: var(--shadow-sm);
   transition: box-shadow 0.18s;
   margin-bottom: 18px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
 .section-box:hover {
@@ -426,6 +433,7 @@ textarea {
   color: var(--orange);
   border-color: var(--orange);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .copy-btn:active {
@@ -738,7 +746,7 @@ textarea {
   }
 
   .section-box {
-    padding: 16px;
+    padding: 20px;
     border-radius: var(--radius-sm);
   }
 
@@ -758,17 +766,21 @@ textarea {
   }
 }
 
-.tag-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 7px;
-  margin-top: 4px;
+.tag-chips{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
 }
 
 
 
 .section-content {
   text-align: left;
+}
+
+.tag-chips {
+    gap: 8px;
 }
 
 
@@ -794,10 +806,40 @@ textarea {
   color: #4b4b4b;
 }
 
-.tag-chip {
-  font-size:15px;
-  font-weight:600;
-  padding:8px 16px;
+.tag-chip{
+    display:inline-flex;
+    align-items:center;
+
+    padding:7px 15px;
+
+    background:var(--surface-2);
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:var(--text-2);
+
+    transition:
+        background-color .2s ease,
+        border-color .2s ease,
+        box-shadow .2s ease,
+        transform .2s ease;
+}
+.tag-chip:hover{
+
+    background:var(--orange-light);
+
+    border-color:var(--orange);
+
+    box-shadow:0 2px 8px rgba(0,0,0,.05);
+
+    transform:translateY(-1px);
+
 }
 .analysis-score{
   font-size:42px;
