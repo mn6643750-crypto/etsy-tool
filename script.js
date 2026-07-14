@@ -381,6 +381,9 @@ document.addEventListener('click', function (e) {
 
   const original = chip.textContent;
 
+  const width = chip.offsetWidth;
+  chip.style.width = width + 'px';
+
   chip.textContent = '✓ Copied';
 
   chip.classList.add('copied');
@@ -390,6 +393,8 @@ document.addEventListener('click', function (e) {
     chip.textContent = original;
 
     chip.classList.remove('copied');
+
+    chip.style.width = '';
 
   }, 1000);
 
