@@ -4,7 +4,21 @@ const COPY_ICON = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" s
 
 function renderTagChips(tagsString) {
   if (!tagsString) return '';
-  return tagsString.split(',').map(t => t.trim()).filter(t => t).map(t => `<span class="tag-chip">${t}</span>`).join('');
+
+  return tagsString
+    .split(',')
+    .map(t => t.trim())
+    .filter(Boolean)
+    .map(tag => `
+      <span
+        class="tag-chip"
+        data-tag="${encodeURIComponent(tag)}"
+        title="Click to copy"
+      >
+        ${tag}
+      </span>
+    `)
+    .join('');
 }
 
 function formatOutput(result, productName = '', keywords = '', category = 'physical') {

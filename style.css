@@ -823,6 +823,8 @@ textarea {
     font-weight:600;
 
     color:var(--text-2);
+    cursor:pointer;
+    user-select:none;
 
     transition:
         background-color .2s ease,
@@ -840,6 +842,10 @@ textarea {
 
     transform:translateY(-1px);
 
+}
+
+.tag-chip.copied{
+    opacity:.85;
 }
 .analysis-score{
   font-size:42px;

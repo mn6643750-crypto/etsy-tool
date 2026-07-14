@@ -368,6 +368,32 @@ document.addEventListener('click', function(e) {
     setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
   }
 });
+
+document.addEventListener('click', function (e) {
+
+  const chip = e.target.closest('.tag-chip');
+
+  if (!chip) return;
+
+  const tag = decodeURIComponent(chip.dataset.tag);
+
+  navigator.clipboard.writeText(tag);
+
+  const original = chip.textContent;
+
+  chip.textContent = '✓ Copied';
+
+  chip.classList.add('copied');
+
+  setTimeout(() => {
+
+    chip.textContent = original;
+
+    chip.classList.remove('copied');
+
+  }, 1000);
+
+});
 // Copy All
 document.addEventListener('click', function(e) {
   if (e.target.id === 'copyAllBtn') {
