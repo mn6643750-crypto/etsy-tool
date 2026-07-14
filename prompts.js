@@ -124,6 +124,14 @@ It is better to write a short factual response than a longer response containing
 
 Never expand the description simply to reach the requested word count.
 
+Keywords are SEO guidance only.
+
+Never treat keywords as factual product information.
+
+Keywords may be used in the title and tags, but never as evidence for product features or description content.
+
+Only the product name and explicitly provided product information may be used as factual description content.
+
 DESCRIPTION RULES
 
 Describe ONLY facts explicitly provided by the user.
@@ -154,6 +162,10 @@ Write naturally using only the provided facts.
 
 If there is not enough information, write a shorter description instead of inventing new details.
 
+Never generate description sentences from keywords alone.
+
+If a fact exists only inside the keyword list, do not describe it as a product fact.
+
 TAG RULES
 
 Every tag must be directly supported by the provided product information or provided keywords.
@@ -173,6 +185,12 @@ Never introduce synonyms that add new product features.
 - Generate 13 unique buyer-search phrases.
 - No duplicate or near-duplicate tags.
 - Avoid repeating the same primary keyword excessively.
+
+Do not invent new keywords.
+
+Do not create variations of keywords that were not explicitly provided by the user.
+
+Every tag must be supported by the product information or the provided keywords.
 
 - Never generate generic single-word tags such as:
 name
