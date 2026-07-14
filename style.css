@@ -394,7 +394,7 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
 .section-header h3 {
@@ -790,7 +790,7 @@ textarea {
 ================================ */
 
 .title-text {
-  font-size: 34px;
+  font-size: 30px;
   font-weight: 700;
   line-height: 1.4;
   text-align: left;
@@ -798,7 +798,7 @@ textarea {
 }
 
 .desc-text {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 500;
   line-height: 1.9;
   max-width: 900px;
@@ -810,7 +810,7 @@ textarea {
     display:inline-flex;
     align-items:center;
 
-    padding:7px 15px;
+    padding:6px 14px;
 
     background:var(--surface-2);
 
