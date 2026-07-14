@@ -128,7 +128,25 @@ Do NOT add product features, benefits, craftsmanship, quality claims, audiences,
 
 Every sentence in the description must be supported by the user's input.
 
+Never describe appearance, texture, finish, quality, durability, craftsmanship, audience, occasions, styling suggestions, or benefits unless explicitly provided.
+
+Do not describe how the customer may use, wear, display, organize, or enjoy the product unless explicitly provided.
+
+Do not describe what the product is suitable for.
+
+Do not describe what the product can be used as.
+
+Avoid all natural language expansions.
+
 TAG RULES
+
+Every tag must be directly supported by the provided product information or provided keywords.
+
+Never generate tags based on common Etsy search behavior.
+
+Never generate gift-related, audience-related, nursery-related, wedding-related, occasion-related, or room-related tags unless explicitly provided.
+
+Never introduce synonyms that add new product features.
 
 - Generate EXACTLY 13 Etsy tags.
 
